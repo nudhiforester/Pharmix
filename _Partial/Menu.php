@@ -337,7 +337,7 @@
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Aktivitas"){echo "active";}else{echo "collapsed";} ?>" href="index.php?Page=Aktivitas&Sub=AktivitasUmum">
                 <i class="bi bi-circle"></i>
-                <span>Log Aktivitas</span>
+                <span>Log Sistem</span>
             </a>
         </li>
         <li class="nav-item">
