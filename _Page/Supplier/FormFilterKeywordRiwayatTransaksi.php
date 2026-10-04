@@ -21,7 +21,8 @@
                     echo '
                         <select name="keyword" id="keyword_riwayat_transaksi" class="form-control">
                             <option value="Lunas">Lunas</option>
-                            <option value="Kredit">Kredit/Utang</option>
+                            <option value="Utang">Utang</option>
+                            <option value="Piutang">Piutang</option>
                         </select>
                     ';
                 }else{

@@ -25,9 +25,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="data_view">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card card-data card-table">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12 text-end">
@@ -58,36 +58,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-load-container mt-3">
-                        <table class="table table-hover table-responsive-card" id="TableSupplier">
-                            <thead>
-                                <tr>
-                                    <th><b>No</b></th>
-                                    <th><b>Supplier</b></th>
-                                    <th><b>Email</b></th>
-                                    <th><b>Kontak</b></th>
-                                    <th><b>PIC</b></th>
-                                    <th><b>NPWP</b></th>
-                                    <th><b>Volume</b></th>
-                                    <th><b>Opsi</b></th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabel_supplier">
-                                <tr>
-                                    <td colspan="8" class="text-center">
-                                        <small>No Data</small>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-load-container mt-3">
+                    <table class="table table-hover table-responsive-card" id="TableSupplier">
+                        <thead>
+                            <tr>
+                                <th><b>No</b></th>
+                                <th><b>Supplier</b></th>
+                                <th><b>Email</b></th>
+                                <th><b>Kontak</b></th>
+                                <th><b>PIC</b></th>
+                                <th><b>NPWP</b></th>
+                                <th><b>Volume</b></th>
+                                <th><b>Opsi</b></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabel_supplier">
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <small>No Data</small>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="card-footer border-0">
                     <div class="row">
                         <div class="col-6">
                             <small id="page_info">
-                                Page 1 Of 100
+                                Page 0 Of 0
                             </small>
                         </div>
                         <div class="col-6 text-end">
@@ -99,6 +97,21 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detail_view">
+        <div class="row">
+            <div class="col-12">
+                <!-- Menampilkan Detail Supplier Disini -->
+                <div class="alert alert-warning text-center">
+
+                    <h1 class="bi bi-inbox"></h1>
+                    <small>
+                        Menunggu Detail Supplier Ditampilkan
+                    </small>
                 </div>
             </div>
         </div>

@@ -27,8 +27,8 @@
                     </div>
                     <div class="dashboard-quick-actions">
                         <a class="dashboard-quick-action" href="index.php?Page=Penjualan&Sub=TambahPenjualan&retur=Tidak">
-                            <i class="bi bi-cart-dash" aria-hidden="true"></i>
-                            <span>Penjualan</span>
+                            <i class="bi bi-pc-display-horizontal" ria-hidden="true"></i>
+                            <span>Kasir</span>
                         </a>
                         <a class="dashboard-quick-action" href="index.php?Page=Pembelian&Sub=TambahPembelian&retur=Tidak">
                             <i class="bi bi-cart-plus" aria-hidden="true"></i>

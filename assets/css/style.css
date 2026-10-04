@@ -5,6 +5,15 @@
 * License: https://bootstrapmade.com/license/
 */
 
+/* PETA STYLE PHARMIX
+   Urutan: dasar NiceAdmin/Bootstrap -> utilitas dan dashboard -> dark mode -> komponen kustom.
+   Komponen kustom: #appToast, input readonly, .MobileCard-grid, .resep-grid,
+   .card-table, .table-responsive-card, .table-loading-overlay, .modal-footer-responsive.
+   Detail label : nilai memakai .detail-info / .detail-info-row di akhir file.
+   Utilitas d-block, text-truncate, text-end, dan spacing berasal dari Bootstrap.
+   Pertahankan urutan selector: override di bawah dapat menimpa aturan di atas.
+*/
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -262,6 +271,7 @@ h6 {
   background-color: #d3d3d4;
   border-color: #d3d3d4;
 }
+/* Halaman login: latar umum dan komponen .login-*; bukan style form global. */
 .login_background {
   background: #1c3b67;
 }
@@ -1771,6 +1781,7 @@ h6 {
   color: #012970;
 }
 
+/* Utilitas aplikasi: canvas, area scroll, album, dan preview dokumen. */
 canvas {
   border: 1px solid #ccc;
   border-radius: 0.5rem;
@@ -1780,8 +1791,7 @@ canvas {
 
 .scroll_div {
   overflow-y: scroll;
-  height: 300px; /* Atur ketinggian sesuai kebutuhan */
-  /* Atur atribut lain sesuai kebutuhan */
+  height: 300px; /* Area scroll dengan tinggi tetap. */
 }
 body .title_page_app {
   font-family: 'Roguelai', sans-serif !important;
@@ -1793,8 +1803,8 @@ body .title_page_app {
 }
 
 .custom-list li::before {
-  content: ""; /* Ganti 'Kata ' dengan teks yang diinginkan */
-  font-weight: bold; /* Opsi: Anda bisa menyesuaikan gaya teks */
+  content: ""; /* Penanda list dikosongkan. */
+  font-weight: bold;
   margin-right: 10px; /* Memberi jarak antara teks dan isi list */
 }
 .card .album img {
@@ -1824,6 +1834,7 @@ body .title_page_app {
   padding-bottom: 5px; /* Jarak ke teks */
 }
 
+/* Teks sekunder abu-abu; gunakan tanpa mengubah ukuran atau tata letak teks. */
 .text-grayish{
   color: #a7a7a7;
 }
@@ -1835,7 +1846,8 @@ body .title_page_app {
   border-radius: 8px; /* Opsional, untuk sudut membulat */
 }
 
-/* Card tanggal dan jam */
+/* Dashboard: #card_jam_menarik memuat tanggal, jam, dan .dashboard-quick-actions.
+   Susunan vertikal menjadi horizontal mulai lebar 992px. */
 #card_jam_menarik {
   padding: 15px;
   border-radius: 12px;
@@ -2116,7 +2128,7 @@ body .title_page_app {
   .dashboard-summary-card { transition: none; }
 }
 
-/* Table custome */
+/* .table_custome: tabel bergaris hitam untuk dokumen; bukan tabel data responsif. */
 .table_custome {
   width: 100%;
   border-collapse: collapse;
@@ -2142,6 +2154,8 @@ body .title_page_app {
 /*--------------------------------------------------------------
 # Dark Mode
 --------------------------------------------------------------*/
+/* Tema aktif melalui html.dark-mode atau body.dark-mode.
+   Override !important di bagian ini juga memengaruhi card/modal kustom. */
 html.dark-mode,
 html.dark-mode body,
 body.dark-mode {
@@ -2566,7 +2580,7 @@ body.dark-mode .dashboard .news p {
   color: #94a3b8 !important;
 }
 
-/* TOAST */
+/* #appToast: notifikasi global; JS memilih .toast-success/error/warning/info. */
 #appToast {
     border-radius: 12px;
     overflow: hidden;
@@ -2635,7 +2649,7 @@ textarea.form-control[readonly]:focus {
     border-color: #ced4da;
 }
 /* =========================================================
-   CARD MOBILE CARD
+   .MobileCard-grid: grid card umum dan tombol aksi; kolom Bootstrap tetap dipakai.
    ========================================================= */
 
 .MobileCard-grid > [class*="col-"],
@@ -2718,7 +2732,7 @@ textarea.form-control[readonly]:focus {
 }
 
 /* =========================================================
-   CARD AKSI RESEP
+   .resep-grid: card khusus resep; #list_resep menyatu dengan grid via display: contents.
    ========================================================= */
 
 #list_resep {
@@ -2893,7 +2907,7 @@ textarea.form-control[readonly]:focus {
 }
 
 /* =========================================================
-   NO ACCESS
+   .no-access-icon: ikon halaman akses ditolak; ukurannya mengecil di bawah 576px.
    ========================================================= */
 
 .no-access-icon {
@@ -2920,6 +2934,7 @@ textarea.form-control[readonly]:focus {
     }
 }
 
+/* Preview cetak resep: scroll horizontal dan hindari pemotongan item antarhalaman. */
 #FormCetak {
     overflow-x: auto;
     background: #f3f3f3;
@@ -3000,7 +3015,7 @@ textarea.form-control[readonly]:focus {
 /* Tabel responsif: ponsel 1 card, tablet 2 card, desktop tabel normal.
    Header menggunakan .table-number, .table-title, dan .table-action. */
 
-/* Container */
+/* Batas lebar card dan pembungkus tabel; min-width: 0 mencegah overflow flex/grid. */
 .card,
 .card-body,
 .table-load-container {
@@ -3013,7 +3028,7 @@ textarea.form-control[readonly]:focus {
     overflow: visible;
 }
 
-/* Mobile dan tablet */
+/* Di bawah 1200px: tabel menjadi card; td[data-label] menyediakan label data. */
 @media (max-width: 1199.98px) {
     .table-responsive.table-load-container,
     .table-responsive:has(.table-responsive-card) {
@@ -3338,7 +3353,8 @@ textarea.form-control[readonly]:focus {
     }
 }
 
-/* Overlay loading selama data tabel dimuat. */
+/* Tambahkan .table-loading pada .table-load-container untuk menampilkan overlay
+   .table-loading-overlay dan menonaktifkan interaksi tabel saat AJAX berlangsung. */
 .table-load-container table {
     transition: filter 180ms ease-out, opacity 180ms ease-out;
 }
@@ -3401,4 +3417,27 @@ textarea.form-control[readonly]:focus {
     margin: 0;
     text-align: center;
   }
+}
+
+/* DETAIL INFORMASI: label : nilai, digunakan oleh modal detail supplier.
+   Struktur: .detail-info > .detail-info-row > label, pemisah, nilai.
+   Tambahkan .d-block.text-truncate pada label/nilai dan title berisi teks lengkap.
+   minmax(0, ...) + min-width: 0 memungkinkan elipsis Bootstrap pada ruang sempit.
+   Warna mengikuti tema/utilitas pemakai; tiga kolom tetap sejajar pada semua ukuran.
+*/
+.detail-info {
+  width: 100%;
+  min-width: 0;
+}
+
+.detail-info > .detail-info-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) auto minmax(0, 3fr);
+  align-items: baseline;
+  column-gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.detail-info > .detail-info-row > * {
+  min-width: 0;
 }

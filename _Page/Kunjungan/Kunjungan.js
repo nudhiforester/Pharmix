@@ -909,6 +909,10 @@ $(document).ready(function() {
                 if (response.status === 'success') {
                     $('#ModalHapus').modal('hide');
 
+                    // Kembali ke tabel
+                    $('#table_view').show();
+                    $('#detail_view').hide();
+
                     if (typeof ShowData === 'function') {
                         ShowData();
                     }
@@ -919,6 +923,13 @@ $(document).ready(function() {
                         text: response.message || 'Data kunjungan berhasil dihapus.',
                         confirmButtonText: 'OK'
                     });
+
+                    // Scroll ke atas
+                    window.scrollTo({
+                        top     : 0,
+                        behavior: 'smooth'
+                    });
+
                 } else {
                     $('#NotifikasiHapus').html(`
                         <div class="alert alert-danger">

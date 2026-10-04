@@ -146,7 +146,7 @@
                     <button type="button" class="icon-tambah" id="tombol_cari" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="<?php echo $id_kunjungan; ?>">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button type="button" class="icon-tambah" id="tombol_cari" data-bs-toggle="modal" data-bs-target="#ModalDelete" data-id="<?php echo $id_kunjungan; ?>">
+                    <button type="button" class="icon-tambah" id="tombol_cari" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="<?php echo $id_kunjungan; ?>">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>

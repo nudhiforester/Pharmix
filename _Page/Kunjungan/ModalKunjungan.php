@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-filter"></i> Filter
                     </button>
@@ -197,7 +197,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolTambah">
                         <i class="bi bi-save"></i> Simpan
                     </button>
@@ -224,7 +224,7 @@
                 <div class="modal-body" id="FormExport">
                     <!-- Form Detail -->
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolExport">
                         <i class="bi bi-download"></i>  Export 
                     </button>
@@ -251,7 +251,7 @@
                 <div class="modal-body" id="FormDetail">
                     <!-- Form Detail -->
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolSelengkapnya">
                         Selengkapnya <i class="bi bi-chevron-right"></i> 
                     </button>
@@ -287,7 +287,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolEdit">
                         <i class="bi bi-save"></i> Simpan
                     </button>
@@ -323,7 +323,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolHapus">
                         <i class="bi bi-check"></i> Ya, Hapus
                     </button>
@@ -359,7 +359,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolKirimEncounter">
                         <i class="bi bi-send"></i> Kirim
                     </button>
@@ -389,7 +389,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer modal-footer-responsive">
                 <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
@@ -421,7 +421,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolTambahCondition">
                         <i class="bi bi-save"></i> Simpan
                     </button>
@@ -451,7 +451,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer modal-footer-responsive">
                 <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
@@ -483,7 +483,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolKirimCondition" disabled>
                         <i class="bi bi-send"></i> Kirim
                     </button>
@@ -513,7 +513,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer modal-footer-responsive">
                 <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
@@ -545,7 +545,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-primary btn-rounded" id="TombolEditCondition" disabled>
                         <i class="bi bi-save"></i> Simpan
                     </button>
@@ -581,7 +581,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-footer-responsive">
                     <button type="submit" class="btn btn-danger btn-rounded" id="TombolHapusCondition" disabled>
                         <i class="bi bi-check"></i> Ya, Hapus
                     </button>

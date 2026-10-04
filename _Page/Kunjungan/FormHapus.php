@@ -43,25 +43,46 @@ if (!$data) {
     responseJson('error', 'Data kunjungan tidak ditemukan.');
 }
 
-$nama_pasien = htmlspecialchars($data['nama_pasien'] ?? 'Tanpa Nama');
-$rm_pasien   = htmlspecialchars($data['rm_pasien'] ?? '-');
-$tanggal     = htmlspecialchars($data['tanggal_kunjungan']);
-$poli        = htmlspecialchars($data['nama_poli'] ?? '-');
-$status      = htmlspecialchars($data['status']);
-
-$html = '
-    <input type="hidden" name="id_kunjungan" value="' . $id_kunjungan . '">
-    <div class="alert alert-warning mb-0">
-        <p class="mb-2">Apakah Anda yakin ingin menghapus data kunjungan berikut?</p>
-        <ul class="mb-0 ps-3">
-            <li><b>Nama Pasien:</b> ' . $nama_pasien . ' (RM: ' . $rm_pasien . ')</li>
-            <li><b>Tanggal Kunjungan:</b> ' . $tanggal . '</li>
-            <li><b>Poliklinik:</b> ' . $poli . '</li>
-            <li><b>Status:</b> ' . $status . '</li>
-        </ul>
-        <small class="text-danger mt-2 d-block"><b>Catatan:</b> Tindakan ini tidak dapat dibatalkan.</small>
+$escape = static function ($value) {
+    return htmlspecialchars(trim((string) $value) !== '' ? (string) $value : '-', ENT_QUOTES, 'UTF-8');
+};
+$timestamp = empty($data['tanggal_kunjungan']) ? false : strtotime($data['tanggal_kunjungan']);
+$tanggal = $timestamp === false ? '-' : date('d/m/Y H:i', $timestamp).' WIB';
+$fields = [
+    'No. RM' => $data['rm_pasien'] ?? '-',
+    'Nama Pasien' => $data['nama_pasien'] ?? 'Tanpa Nama',
+    'Tgl. Kunjungan' => $tanggal,
+    'Poliklinik' => $data['nama_poli'] ?? '-',
+    'Status' => $data['status'] ?? '-'
+];
+ob_start();
+?>
+<input type="hidden" name="id_kunjungan" value="<?= $id_kunjungan ?>">
+<div class="card border mb-3">
+    <div class="card-header">
+        <b class="card-title"># Informasi Kunjungan</b>
     </div>
-';
+    <div class="card-body pt-3 pb-2">
+        <?php foreach ($fields as $label => $value): ?>
+        <div class="row mb-2">
+            <div class="col-5"><small><?= $escape($label) ?></small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-6 text-end text-break"><small style="overflow-wrap: anywhere;"><?= $escape($value) ?></small></div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<div class="alert alert-warning mb-0" role="alert">
+    <div class="d-flex align-items-start gap-2">
+        <i class="bi bi-exclamation-triangle flex-shrink-0" aria-hidden="true"></i>
+        <div>
+            <p class="mb-1"><b>Hapus kunjungan ini?</b></p>
+            <small>Pastikan data pasien dan kunjungan sudah sesuai. Tindakan ini tidak dapat dibatalkan.</small>
+        </div>
+    </div>
+</div>
+<?php
+$html = ob_get_clean();
 
 responseJson('success', 'Berhasil memuat data.', ['html' => $html]);
 ?>

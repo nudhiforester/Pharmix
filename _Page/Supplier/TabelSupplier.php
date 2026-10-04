@@ -140,8 +140,8 @@
         
         $html .= '
             <tr>
-                <td><small>'.$no.'</small></td>
-                <td>
+                <td class="table-number"><small>'.$no.'</small></td>
+                <td class="table-title">
                     <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetailSupplier" data-id="'.$id_supplier.'">
                         <small>'.$nama_supplier.'</small>
                     </a>
@@ -151,7 +151,7 @@
                 <td><small class="text-muted">'.$pic.'</small></td>
                 <td><small class="text-muted">'.$npwp.'</small></td>
                 <td><small class="text-muted">'.$VolumeTransaksi.'</small></td>
-                <td>
+                <td class="table-action">
                     <button type="button" class="btn btn-sm btn-floating btn-secondary" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical"></i>
                     </button>

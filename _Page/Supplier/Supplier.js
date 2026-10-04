@@ -1,7 +1,9 @@
+// ============================================================
+// FUNCTION
+// Keterangan : Semua function di letakan pada block ini
+// ============================================================
+
 //Fungsi Menampilkan Data
-// ============================================================
-// MENAMPILKAN DATA SUPPLIER
-// ============================================================
 function ShowData() {
     const target = $('#tabel_supplier');
     const data   = $('#ProsesFilter').serialize();
@@ -63,144 +65,116 @@ function ShowData() {
     });
 }
 
-
-
-//Fungsi Menampilkan Informasi Detail Supplier
-function ShowDetailSupplier(id_supplier) {
+//Fungsi Menampilkan Detail Supplier
+function ShowDetail(id_supplier) {
     //Loading element
-    $('#detail_supplier').html('<div class="row"><div class="col-md-12 text-center">Loading...</div></div>');
+    $('#detail_view').html('<div class="row"><div class="col-md-12 text-center">Loading...</div></div>');
     $.ajax({
         type        : 'POST',
-        url         : '_Page/Supplier/_detail_supplier.php',
+        url         : '_Page/Supplier/_DetailSupplier.php',
         data        : {id_supplier: id_supplier},
-        dataType    : "json",
         success: function(response) {
-            if(response.status=="Success"){
-                $('#detail_supplier').html(`
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="row mb-2">
-                                <div class="col-4"><small>ID.Supplier</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.id_supplier}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>Nama Supplier</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.nama_supplier}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>Email</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.email_supplier}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>Kontak</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.kontak_supplier}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>Alamat</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.alamat_supplier}</small></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row mb-2">
-                                <div class="col-4"><small>PIC</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.pic}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>NPWP</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.npwp}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>Jumlah Pembelian</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.jumlah_transaksi_format}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>Retur Pembelian</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.jumlah_transaksi_retur_format}</small></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4"><small>Utang Usaha</small></div>
-                                <div class="col-8"><small class="text text-muted">${response.dataset.jumlah_transaksi_kredit_format}</small></div>
-                            </div>
-                        </div>
-                    </div>
-                `);
-            }else{
-                //Apabila Response Error
-                Swal.fire({
-                    title: "Opss!",
-                    text: response.message,
-                    icon: "error",
-                    confirmButtonText: "Tutup"
-                }).then((result) => {
-                    if (result.isConfirmed || result.isDismissed) {
-                        // Redirect ke halaman yang diinginkan
-                        window.location.href = "index.php?Page=Supplier"; 
-                    }
-                });
-            }
-        },
-        error: function () {
-            //Apabila format json gagal dibaca
-            Swal.fire({
-                title: "Opss!",
-                text: "Terjadi kesalahan pada saat akan menampilkan detail supplier",
-                icon: "error",
-                confirmButtonText: "Tutup"
-            }).then((result) => {
-                if (result.isConfirmed || result.isDismissed) {
-                    window.location.href = "index.php?Page=Supplier"; 
-                }
-            });
-        },
+            $('#detail_view').html(response);
+
+            // Muat riwayat setelah tabel pada detail supplier tersedia
+            $('#id_supplier_transaksi').val(id_supplier);
+            $('#page_transaksi').val(1);
+            ShowRiwayatTransaksi();
+        }
     });
 }
 
 //Fungsi Menampilkan Riwayat Transaksi
-function ShowRiwayatTransaksi(id_supplier) {
-    //Tempelkan id_supplier ke form filter
-    $('#put_id_supplier_on_riwayat_transaksi').val(id_supplier);
-    var ProsesFilterriwayatTransaksi = $('#ProsesFilterriwayatTransaksi').serialize();
-    //Loading
-    $('#TabelTransaksiSupplier').html(`
-        <tr>
-            <td colspan="8" class="text-center">Loading...</td>
-        </tr>
-    `);
+function ShowRiwayatTransaksi() {
+
+    const target = $('#tabel_transaksi_supplier');
+    const data   = $('#ProsesFilterTransaksi').serialize();
+
+    // Detail supplier harus tersedia sebelum riwayat dimuat
+    if (!target.length || !$('#id_supplier_transaksi').val()) {
+        return;
+    }
+
     $.ajax({
         type    : 'POST',
         url     : '_Page/Supplier/TabelRiwayatTransaksi.php',
-        data    : ProsesFilterriwayatTransaksi,
-        success: function(data) {
-            $('#TabelTransaksiSupplier').html(data);
+        data    : data,
+        dataType: 'json',
+
+        beforeSend: function() {
+            tableLoading('#TableRiwayatTransaksi', true);
+            $('#prev_button_transaksi, #next_button_transaksi').prop('disabled', true);
+        },
+
+        success: function(res) {
+            if (res.status === 'success') {
+                target.html(res.html);
+
+                // Gunakan ID table, bukan ID tbody
+                initResponsiveTable('#TableRiwayatTransaksi');
+
+                // Update informasi halaman
+                $('#page_transaksi').val(res.page);
+                $('#page_info_transaksi').text(
+                    'Page ' + res.page + ' Of ' + res.total_page
+                );
+
+                // Pengaturan tombol pagination
+                $('#prev_button_transaksi').prop('disabled', res.page <= 1);
+                $('#next_button_transaksi').prop(
+                    'disabled',
+                    res.total_page <= 0 || res.page >= res.total_page
+                );
+
+                return;
+            }
+
+            target.html(res.html);
+
+            $('#page_info_transaksi').text('Page 0 Of 0');
+            $('#prev_button_transaksi, #next_button_transaksi').prop('disabled', true);
+        },
+
+        error: function(xhr) {
+            target.html(`
+                <tr class="table-empty">
+                    <td colspan="9" class="text-center text-danger">
+                        <small>Gagal memuat riwayat transaksi supplier.</small>
+                    </td>
+                </tr>
+            `);
+
+            $('#page_info_transaksi').text('Page 0 Of 0');
+            $('#prev_button_transaksi, #next_button_transaksi').prop('disabled', true);
+
+            console.error(xhr.responseText);
+        },
+
+        complete: function() {
+            tableLoading('#TableRiwayatTransaksi', false);
         }
     });
 }
 
-//Fungsi Menampilkan Riwayat Riwayat Transaksi
-function ShowRiwayatRincianTransaksi(id_supplier) {
-    //Tempelkan id_supplier ke form filter
-    $('#put_id_supplier_on_riwayat_rincian_transaksi').val(id_supplier);
-    var ProsesFilterRincian = $('#ProsesFilterRincian').serialize();
-    //Loading
-    $('#TabelRincianTransaksiSupplier').html(`
-        <tr>
-            <td colspan="10" class="text-center">Loading...</td>
-        </tr>
-    `);
-    $.ajax({
-        type    : 'POST',
-        url     : '_Page/Supplier/TabelRiwayatRincianTransaksi.php',
-        data    : ProsesFilterRincian,
-        success: function(data) {
-            $('#TabelRincianTransaksiSupplier').html(data);
-        }
-    });
-}
-
+// ============================================================
+// EVENT HANDLE
+// Keterangan : Semua Event Handle di tulis pada block ini
+// ============================================================
 $(document).ready(function() {
 
-    //Inisiasi Data Pertama Kali
+    // -------------------------------------------------------
+    // DATA TABEL SUPPLIER
+    // Keterangan : Adalah handle tampilan data table
+    // -------------------------------------------------------
+    
+    // Switch data & detail View
+    $('#data_view').show();
+    $('#detail_view').hide();
+
+    // Responsive table to  card
     initResponsiveTable('#TableSupplier');
+
+    // Call Data Function
     ShowData();
 
     // Auto Focus ModalFilter
@@ -237,12 +211,17 @@ $(document).ready(function() {
         scrollToTop();
     });
     
-    // Auto Focus ModalTambahSupplier
+    // -------------------------------------------------------
+    // TAMBAH SUPPLIER
+    // Keterangan : Adalah handle tambah data supplier
+    // -------------------------------------------------------
+    
+    // Auto Focus pada saat 'ModalTambahSupplier' muncul
     $('#ModalTambahSupplier').on('shown.bs.modal', function () {
         $('#nama_supplier').trigger('focus');
     });
 
-    //Proses Tambah Supplier
+    //Proses submit Tambah Supplier
     $('#ProsesTambahSupplier').submit(function(){
         
         // Tangkap Data
@@ -319,101 +298,10 @@ $(document).ready(function() {
         });
     });
 
-    //Ketika menampilkan detail supplier
-    if ($("#put_id_supplier_on_detail").length) {
-        var id_supplier=$("#put_id_supplier_on_detail").val();
-
-        //Menampilkan Detail
-        ShowDetailSupplier(id_supplier);
-
-        //Menampilkan Riwayat Transaksi
-        ShowRiwayatTransaksi(id_supplier);
-
-        //Menampilkan Riwayat Rincian Transaksi
-        ShowRiwayatRincianTransaksi(id_supplier);
-
-        //Pagging Riwayat Transaksi
-        $(document).on('click', '#next_button_transaksi', function() {
-            var page_now = parseInt($('#page_riwayat_transaksi').val(), 10);
-            var next_page = page_now + 1;
-            $('#page_riwayat_transaksi').val(next_page);
-            ShowRiwayatTransaksi(id_supplier);
-        });
-        $(document).on('click', '#prev_button_transaksi', function() {
-            var page_now = parseInt($('#page_riwayat_transaksi').val(), 10);
-            var next_page = page_now - 1;
-            $('#page_riwayat_transaksi').val(next_page);
-            ShowRiwayatTransaksi(id_supplier);
-        });
-
-        //Pagging Riwayat Rincian Transaksi
-        $(document).on('click', '#next_button_rincian_transaksi', function() {
-            var page_now = parseInt($('#page_riwayat_rincian_transaksi').val(), 10);
-            var next_page = page_now + 1;
-            $('#page_riwayat_rincian_transaksi').val(next_page);
-            ShowRiwayatRincianTransaksi(id_supplier);
-        });
-        $(document).on('click', '#prev_button_rincian_transaksi', function() {
-            var page_now = parseInt($('#page_riwayat_rincian_transaksi').val(), 10);
-            var next_page = page_now - 1;
-            $('#page_riwayat_rincian_transaksi').val(next_page);
-            ShowRiwayatRincianTransaksi(id_supplier);
-        });
-
-        //Ketiika keyword_by_riwayat_transaksi Diubah
-        $('#keyword_by_riwayat_transaksi').change(function(){
-            var keyword_by_riwayat_transaksi = $('#keyword_by_riwayat_transaksi').val();
-            $('#FormFilterKeywordRiwayatTransaksi').html('Loading...');
-            $.ajax({
-                type 	    : 'POST',
-                url 	    : '_Page/Supplier/FormFilterKeywordRiwayatTransaksi.php',
-                data 	    :  {keyword_by_riwayat_transaksi: keyword_by_riwayat_transaksi},
-                success     : function(data){
-                    $('#FormFilterKeywordRiwayatTransaksi').html(data);
-                }
-            });
-        });
-
-        //Ketiika keyword_by_riwayat_rincian_transaksi Diubah
-        $('#keyword_by_riwayat_rincian_transaksi').change(function(){
-            var keyword_by_riwayat_rincian_transaksi = $('#keyword_by_riwayat_rincian_transaksi').val();
-            $('#FormFilterKeywordRiwayatRincianTransaksi').html('Loading...');
-            $.ajax({
-                type 	    : 'POST',
-                url 	    : '_Page/Supplier/FormFilterKeywordRiwayatRincianTransaksi.php',
-                data 	    :  {keyword_by_riwayat_rincian_transaksi: keyword_by_riwayat_rincian_transaksi},
-                success     : function(data){
-                    $('#FormFilterKeywordRiwayatRincianTransaksi').html(data);
-                }
-            });
-        });
-        
-        //Ketika Submit Filter
-        $('#ProsesFilterriwayatTransaksi').submit(function(){
-            
-            //Kembalikan ke halaman 1
-            $('#page_riwayat_transaksi').val(1);
-
-            //Tampilkan Data
-            ShowRiwayatTransaksi(id_supplier);
-
-            //Tutup 'ModalFilterriwayatTransaksi'
-            $('#ModalFilterriwayatTransaksi').modal('hide');
-        });
-
-        //Ketika Submit ProsesFilterRincian 
-        $('#ProsesFilterRincian').submit(function(){
-            
-            //Kembalikan ke halaman 1
-            $('#page_riwayat_rincian_transaksi').val(1);
-
-            //Tampilkan Data
-            ShowRiwayatRincianTransaksi(id_supplier);
-
-            //Tutup 'ModalFilterRincian'
-            $('#ModalFilterRincian').modal('hide');
-        });
-    }
+    // -------------------------------------------------------
+    // EXPORT SUPPLIER
+    // Keterangan : Block handle export data supplier ke file excel
+    // -------------------------------------------------------
 
     //Modal Export Supplier
     $('#ModalExportSupplier').on('show.bs.modal', function (e) {
@@ -427,10 +315,134 @@ $(document).ready(function() {
         });
     });
 
+    // -------------------------------------------------------
+    // IMPORT SUPPLIER
+    // Keterangan : Block Untuk Handle Import Data
+    // -------------------------------------------------------
     
+    // Ketika 'ModalImportSupplier' Muncul
+    $('#ModalImportSupplier').on('show.bs.modal', function (e) {
+        //Kosongkan Notifikasi
+        $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small>No Data</small></td></tr>');
 
+        //Disabled Button
+        $('#TombolImport').prop('disabled', true);
+
+        // Reset Form
+        $('#ProsesImportSupplier')[0].reset();
+    });
+
+    //Validasi File Import
+    $('#file_supplier').on('change', function () {
+        var file = this.files[0];
+        var validTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+        var maxSize = 10 * 1024 * 1024; // 10 MB
+
+        // Reset notifikasi
+        $('#NotifikasiImportSupplier').html('');
+
+        if (file) {
+            if (!validTypes.includes(file.type)) {
+                $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">Tipe File Tidak Valid</small></td></tr>');
+                $(this).val(''); // Reset input file
+                return;
+            }
+
+            if (file.size > maxSize) {
+                $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">Ukuran file terlalu besar. Maksimal 10 MB.</small></td></tr>');
+                $(this).val(''); // Reset input file
+                return;
+            }
+            $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-success">Siap Import</small></td></tr>');
+            $('#TombolImport').prop('disabled', false);
+        }
+    });
+
+    //Proses Import
+    $('#ProsesImportSupplier').on('submit', function (e) {
+        e.preventDefault();
+
+        // Tangkap Data
+        var formData = new FormData(this);
+
+        // Loading Notifikasi 'NotifikasiImportSupplier'
+        $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small>Loading...</small></td></tr>');
+
+        // Disabled 'TombolImport' dan 'TombolSelesai'
+        $('#TombolImport').prop('disabled', true);
+        $('#TombolSelesai').prop('disabled', true);
+
+        // Proses Data Dengan 'AJAX'
+        $.ajax({
+            url        : '_Page/Supplier/ProsesImportSupplier.php',
+            type       : 'POST',
+            data       : formData,
+            dataType   : 'JSON',
+            contentType: false,
+            processData: false,
+            beforeSend : function () {
+                $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small>Sedang Memproses Data</small></td></tr>');
+            },
+
+            success: function (response) {
+                var status  = response.status;
+                var message = response.message;
+                var html    = response.html;
+
+                // Apabila Berhasil
+                if(status=="success"){
+                    // Tampilkan Data
+                    $('#NotifikasiImportSupplier').html(html);
+
+                    // Enable Tombol Selesai
+                    $('#TombolSelesai').prop('disabled', false);
+                }else{
+                    $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">'+message+'</small></td></tr>');
+
+                    // Enamble Tombol
+                    $('#TombolImport').prop('disabled', false);
+                }
+            },
+
+            error: function(xhr, status, error){
+                // Consol
+                console.log("XHR:", xhr);
+                console.log("STATUS:", status);
+                console.log("ERROR:", error);
+                console.log("RESPONSE:", xhr.responseText);
+
+                // Tampilkan Notifikasi
+                $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">Terjadi kesalahan saat mengimpor data.</small></td></tr>');
+                
+                // Enamble Tombol
+                $('#TombolImport').prop('disabled', false);
+            }
+        });
+    });
+
+    // Tombol Selesai
+    $('#TombolSelesai').on('click', function () {
+        //Reset Filter
+        $('#ProsesFilter')[0].reset();
+        $('#ProsesImportSupplier')[0].reset();
+
+        //Tampilkan Data
+        ShowData();
+
+        // Tutup Modal
+        $('#ModalImportSupplier').modal('hide');
+
+        // Enable Tombol TombolImport dan TombolSelesai
+        $('#TombolImport').prop('disabled', true);
+        $('#TombolSelesai').prop('disabled', true);
+    });
     
-    //Detail Supplier
+    // -------------------------------------------------------
+    // DETAIL SUPPLIER
+    // Keterangan : Menampilkan informasi supplier dalam bentuk modal
+    // -------------------------------------------------------
+    
+    //Menampilkan 'FormDetailSupplier' pada 'ModalDetailSupplier'
     $('#ModalDetailSupplier').on('show.bs.modal', function (e) {
         var id_supplier= $(e.relatedTarget).data('id');
         $('#FormDetailSupplier').html("Loading...");
@@ -443,6 +455,64 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Ketika Submit Detail Supplier
+    $('#ProsesDetail').submit(function(e){
+        e.preventDefault();
+
+        // Menangkap 'id_supplier' dari 'FormDetailSupplier'
+        const id_supplier = $('#FormDetailSupplier').find('input[name="id_supplier"]').val();
+
+        // Jika id_supplier tidak ditemukan
+        if (!id_supplier) {
+            $('#NotifikasiDetailSupplier').html(`
+                <div class="alert alert-danger">
+                    <small>
+                        <b>Opss!</b><br>
+                        ID Supplier Tidak Ditemukan!
+                    </small>
+                </div>
+            `);
+            return;
+        }
+
+        // Switch Data & Detail View
+        $('#data_view').hide();
+        $('#detail_view').show();
+
+        // Tutup Modal
+        $('#ModalDetailSupplier').modal('hide');
+
+        // Tampilkan Detail Dengan Function
+        ShowDetail(id_supplier);
+
+        // Scroll ke atas
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        
+    });
+
+    $(document).on('click', '.tombol_kembali', function () {
+        // Menyembunyikan detail_view dan Menampilkan data_view
+        $('#data_view').show();
+        $('#detail_view').hide();
+
+        // Reload Data
+        ShowData(0);
+
+        // Scroll ke atas
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // -------------------------------------------------------
+    // EDIT SUPPLIER
+    // Keterangan : Handle Form Edit dan Submit Edit Supplier
+    // -------------------------------------------------------
 
     //Modal Edit Supplier
     $('#ModalEditSupplier').on('show.bs.modal', function (e) {
@@ -580,6 +650,11 @@ $(document).ready(function() {
         });
     });
 
+    // -------------------------------------------------------
+    // HAPUS SUPPLIER
+    // Keterangan : Handle Form Hapus dan Submit Hapus Supplier
+    // -------------------------------------------------------
+
     //Modal Hapus Supplier
     $('#ModalHapusSupplier').on('show.bs.modal', function (e) {
 
@@ -707,6 +782,51 @@ $(document).ready(function() {
                 // Kembalikan Tombol
                 $('#TombolHapusSupplier').prop('disabled', false);
                 $('#TombolHapusSupplier').html(TombolHapusSupplier);
+            }
+        });
+    });
+
+
+    // -------------------------------------------------------
+    // RIWAYAT TRANSAKSI SUPPLIER
+    // Keterangan : Filter dan pagination tabel pada detail supplier
+    // -------------------------------------------------------
+
+    // Kembalikan halaman pertama ketika filter diterapkan
+    $('#ProsesFilterTransaksi').submit(function(e) {
+        e.preventDefault();
+        $('#page_transaksi').val(1);
+        ShowRiwayatTransaksi();
+        $('#ModalFilterTransaksi').modal('hide');
+    });
+
+    // Gunakan event delegasi karena tombol dimuat melalui ShowDetail
+    $(document).on('click', '#next_button_transaksi', function() {
+        var page_now = parseInt($('#page_transaksi').val(), 10) || 1;
+        $('#page_transaksi').val(page_now + 1);
+        ShowRiwayatTransaksi();
+    });
+    $(document).on('click', '#prev_button_transaksi', function() {
+        var page_now = parseInt($('#page_transaksi').val(), 10) || 1;
+        $('#page_transaksi').val(Math.max(1, page_now - 1));
+        ShowRiwayatTransaksi();
+    });
+
+    // Sesuaikan input kata kunci dengan dasar pencarian yang dipilih
+    $('#keyword_by_riwayat_transaksi').on('change', function() {
+        var keyword_by = $(this).val();
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Supplier/FormFilterKeywordRiwayatTransaksi.php',
+            data    : {keyword_by_riwayat_transaksi: keyword_by},
+            success: function(response) {
+                // Abaikan respons lama jika pilihan sudah berubah
+                if ($('#keyword_by_riwayat_transaksi').val() !== keyword_by) {
+                    return;
+                }
+                $('#FormFilterKeywordRiwayatTransaksi').html(
+                    '<label for="keyword_riwayat_transaksi"><i>Keyword</i></label>' + response
+                );
             }
         });
     });
@@ -862,292 +982,42 @@ $(document).ready(function() {
 
     //Modal Export Transaksi
     $('#ModalExportTransaksi').on('show.bs.modal', function (e) {
-        //Kosongkan Notifikasi
-        $('#NotifikasiExportTransaksi').html("");
+        // Tangkap ID dari tombol atau supplier yang sedang ditampilkan
+        var id_supplier = $(e.relatedTarget).data('id') || $('#id_supplier_transaksi').val();
+        var target = $('#FormExportTransaksi');
+        var tombol = $(this).find('button[type="submit"]');
 
-        //Kembalikan Button
-        $('#ButtonExportTransaksi').prop('disabled', false).html('<i class="bi bi-download"></i> Download/Export');
+        // Kosongkan form sebelumnya dan nonaktifkan export selama pemuatan
+        target.html('<div class="text-center"><small>Loading...</small></div>');
+        tombol.prop('disabled', true);
 
-        //Tangkap ID Supplier
-        var id_supplier= $(e.relatedTarget).data('id');
-        
-        //Tempelkan Ke Form
-        $('#put_id_supplier_for_export_transaksi').val(id_supplier);
-        
-        //Buka Detail Supplier
-        $.ajax({
-            type        : 'POST',
-            url         : '_Page/Supplier/_detail_supplier.php',
-            data        : {id_supplier: id_supplier},
-            dataType    : "json",
-            success: function(response) {
-                if(response.status=="Success"){
-                    $('#put_nama_supplier').html(response.dataset.nama_supplier);
-                }else{
-                    $('#put_nama_supplier').html('<small class="text-danger">'+response.message+'</small>');
-                }
-            },
-            error: function () {
-                //Apabila format json gagal dibaca
-                $('#put_nama_supplier').html('<small class="text-danger">Error</small>');
-            },
-        });
-    });
-
-    //Proses Export Transaksi
-    $('#ProsesExportTransaksi').on('submit', function (e) {
-        e.preventDefault();
-        
-        let periodeAwal = $('#periode_transaksi_1').val();
-        let periodeAkhir = $('#periode_transaksi_2').val();
-        let idSupplier = $('#put_id_supplier_for_export_transaksi').val();
-        let button = $('#ButtonExportTransaksi');
-        let notif = $('#NotifikasiExportTransaksi');
-        
-        // Validasi periode
-        if (periodeAwal && periodeAkhir && periodeAkhir < periodeAwal) {
-            notif.html('<div class="alert alert-danger">Periode akhir tidak boleh lebih kecil dari periode awal.</div>');
+        // Pastikan supplier sudah dipilih sebelum meminta form export
+        if (!id_supplier) {
+            target.html('<div class="text-center text-danger"><small>ID Supplier Tidak Boleh Kosong</small></div>');
             return;
         }
-        
-        // Disable tombol dan tampilkan loading
-        button.prop('disabled', true).html('<i class="bi bi-arrow-clockwise"></i> Memproses...');
-        notif.html('');
-        
+
+        // Muat HTML form export sesuai supplier yang sedang ditampilkan
         $.ajax({
-            url: '_Page/Supplier/ProsesExportRiwayatTransaksi.php',
-            type: 'POST',
-            data: {
-                id_supplier: idSupplier,
-                periode_awal: periodeAwal,
-                periode_akhir: periodeAkhir
+            type        : 'POST',
+            url         : '_Page/Supplier/FormExportTransaksi.php',
+            data        : {id_supplier: id_supplier},
+            dataType    : 'html',
+            success: function(response) {
+                target.html(response);
+                tombol.prop('disabled', !$.trim(response));
             },
-            xhrFields: {
-                responseType: 'blob' // Menerima file sebagai blob
-            },
-            success: function (response, status, xhr) {
-                let filename = "Riwayat_Transaksi.xlsx";
-                let blob = new Blob([response], { type: xhr.getResponseHeader('Content-Type') });
-                let link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = filename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                $('#ModalExportTransaksi').modal('hide');
-                $('#ProsesExportTransaksi')[0].reset();
-                
-                // Tampilkan Swal
-                Swal.fire(
-                    'Success!',
-                    'Download Riwayat Transaksi Berhasil!',
-                    'success'
-                );
-            },
-            error: function () {
-                notif.html('<div class="alert alert-danger">Terjadi kesalahan dalam proses ekspor.</div>');
-            },
-            complete: function () {
-                // Kembalikan tombol ke kondisi semula
-                button.prop('disabled', false).html('<i class="bi bi-download"></i> Download/Export');
+            error: function(xhr) {
+                target.html('<div class="text-center text-danger"><small>Gagal memuat form export transaksi.</small></div>');
+                console.error(xhr.responseText);
             }
         });
     });
 
-
-    //Modal Export Rincian Transaksi
-    $('#ModalExportRincian').on('show.bs.modal', function (e) {
-        //Kosongkan Notifikasi
-        $('#NotifikasiExportRincian').html('');
-
-        //Kembalikan Button
-        $('#ButtonExportRincian').prop('disabled', false).html('<i class="bi bi-download"></i> Download/Export');
-
-        //Tangkap ID Supplier
-        var id_supplier= $(e.relatedTarget).data('id');
-        
-        //Tempelkan Ke Form
-        $('#put_id_supplier_for_export_rincian_transaksi').val(id_supplier);
-        
-        //Buka Detail Supplier
-        $.ajax({
-            type        : 'POST',
-            url         : '_Page/Supplier/_detail_supplier.php',
-            data        : {id_supplier: id_supplier},
-            dataType    : "json",
-            success: function(response) {
-                if(response.status=="Success"){
-                    $('#put_nama_supplier_for_export_rincian').html(response.dataset.nama_supplier);
-                }else{
-                    $('#put_nama_supplier_for_export_rincian').html('<small class="text-danger">'+response.message+'</small>');
-                }
-            },
-            error: function () {
-                //Apabila format json gagal dibaca
-                $('#put_nama_supplier_for_export_rincian').html('<small class="text-danger">Error</small>');
-            },
-        });
-    });
-    //Proses Export Rincian
-    $('#ProsesExportRincian').on('submit', function() {
-        // Menutup modal setelah form di-submit
-        $('#ModalExportRincian').modal('hide');
-
-        // Mereset form setelah beberapa detik (opsional)
-        setTimeout(function() {
-            $('#ProsesExportRincian')[0].reset();
-        }, 1000); // Delay 1 detik sebelum reset form
-    });
-
-
+    
 });
 
 
 
 
-
-
-
-$('#RincianBarang').click(function(){
-    $('#HalamanDetailSupplier').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
-    var GetIdSupplier =$('#GetIdSupplier').html();
-    $.ajax({
-        type 	    : 'POST',
-        url 	    : '_Page/Supplier/RincianBarang.php',
-        data 	    :  {GetIdSupplier: GetIdSupplier},
-        success     : function(data){
-            $('#HalamanDetailSupplier').html(data);
-        }
-    });
-});
-$('#RiwayatTransaksi').click(function(){
-    $('#HalamanDetailSupplier').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
-    var GetIdSupplier =$('#GetIdSupplier').html();
-    $.ajax({
-        type 	    : 'POST',
-        url 	    : '_Page/Supplier/RiwayatTransaksi.php',
-        data 	    :  {GetIdSupplier: GetIdSupplier},
-        success     : function(data){
-            $('#HalamanDetailSupplier').html(data);
-        }
-    });
-});
-
-// Modal Import
-$('#ModalImportSupplier').on('show.bs.modal', function (e) {
-    //Kosongkan Notifikasi
-    $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small>No Data</small></td></tr>');
-
-    //Disabled Button
-    $('#TombolImport').prop('disabled', true);
-
-    // Reset Form
-    $('#ProsesImportSupplier')[0].reset();
-});
-
-//Validasi File Import
-$('#file_supplier').on('change', function () {
-    var file = this.files[0];
-    var validTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
-    var maxSize = 10 * 1024 * 1024; // 10 MB
-
-    // Reset notifikasi
-    $('#NotifikasiImportSupplier').html('');
-
-    if (file) {
-        if (!validTypes.includes(file.type)) {
-            $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">Tipe File Tidak Valid</small></td></tr>');
-            $(this).val(''); // Reset input file
-            return;
-        }
-
-        if (file.size > maxSize) {
-            $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">Ukuran file terlalu besar. Maksimal 10 MB.</small></td></tr>');
-            $(this).val(''); // Reset input file
-            return;
-        }
-        $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-success">Siap Import</small></td></tr>');
-        $('#TombolImport').prop('disabled', false);
-    }
-});
-
-//Proses Import
-$('#ProsesImportSupplier').on('submit', function (e) {
-    e.preventDefault();
-
-    // Tangkap Data
-    var formData = new FormData(this);
-
-    // Loading Notifikasi 'NotifikasiImportSupplier'
-    $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small>Loading...</small></td></tr>');
-
-    // Disabled 'TombolImport' dan 'TombolSelesai'
-    $('#TombolImport').prop('disabled', true);
-    $('#TombolSelesai').prop('disabled', true);
-
-    // Proses Data Dengan 'AJAX'
-    $.ajax({
-        url        : '_Page/Supplier/ProsesImportSupplier.php',
-        type       : 'POST',
-        data       : formData,
-        dataType   : 'JSON',
-        contentType: false,
-        processData: false,
-        beforeSend : function () {
-            $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small>Sedang Memproses Data</small></td></tr>');
-        },
-
-        success: function (response) {
-            var status  = response.status;
-            var message = response.message;
-            var html    = response.html;
-
-            // Apabila Berhasil
-            if(status=="success"){
-                // Tampilkan Data
-                $('#NotifikasiImportSupplier').html(html);
-
-                // Enable Tombol Selesai
-                $('#TombolSelesai').prop('disabled', false);
-            }else{
-                $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">'+message+'</small></td></tr>');
-
-                // Enamble Tombol
-                $('#TombolImport').prop('disabled', false);
-            }
-        },
-
-        error: function(xhr, status, error){
-            // Consol
-            console.log("XHR:", xhr);
-            console.log("STATUS:", status);
-            console.log("ERROR:", error);
-            console.log("RESPONSE:", xhr.responseText);
-
-            // Tampilkan Notifikasi
-            $('#NotifikasiImportSupplier').html('<tr><td colspan="7" class="text-center"><small class="text-danger">Terjadi kesalahan saat mengimpor data.</small></td></tr>');
-            
-            // Enamble Tombol
-            $('#TombolImport').prop('disabled', false);
-        }
-    });
-});
-
-// Tombol Selesai
-$('#TombolSelesai').on('click', function () {
-    //Reset Filter
-    $('#ProsesFilter')[0].reset();
-    $('#ProsesImportSupplier')[0].reset();
-
-    //Tampilkan Data
-    ShowData();
-
-    // Tutup Modal
-    $('#ModalImportSupplier').modal('hide');
-
-    // Enable Tombol TombolImport dan TombolSelesai
-    $('#TombolImport').prop('disabled', true);
-    $('#TombolSelesai').prop('disabled', true);
-});
 

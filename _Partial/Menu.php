@@ -86,22 +86,22 @@
             <ul id="transaksi-nav" class="nav-content collapse <?php if($PageMenu=="JenisTransaksi"||$PageMenu=="Transaksi"||$PageMenu=="Penjualan"||$PageMenu=="Pembelian"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="index.php?Page=JenisTransaksi" class="<?php if($PageMenu=="JenisTransaksi"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Kategori Operasional</span>
+                        <i class="bi bi-circle"></i><span>Kategori Transaksi</span>
                     </a>
                 </li>
                 <li>
                     <a href="index.php?Page=Transaksi" class="<?php if($PageMenu=="Transaksi"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Transaksi Operasional</span>
+                        <i class="bi bi-circle"></i><span>Operasional</span>
                     </a>
                 </li>
                 <li>
                     <a href="index.php?Page=Penjualan" class="<?php if($PageMenu=="Penjualan"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Transaksi Penjualan</span>
+                        <i class="bi bi-circle"></i><span>Kasir</span>
                     </a>
                 </li>
                 <li>
                     <a href="index.php?Page=Pembelian" class="<?php if($PageMenu=="Pembelian"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Transaksi Pembelian</span>
+                        <i class="bi bi-circle"></i><span>Pembelian</span>
                     </a>
                 </li>
             </ul>
