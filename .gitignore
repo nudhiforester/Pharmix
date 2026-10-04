@@ -23,15 +23,15 @@ _Config/*local*.php
 _Config/*secret*.php
 
 # Backup database dan dump data
-/db/*
-!/db/.gitkeep
-*.sql
-*.sql.gz
-*.dump
-*.bak
-*.backup
-*.sqlite
-*.sqlite3
+# /db/*
+# !/db/.gitkeep
+# *.sql
+# *.sql.gz
+# *.dump
+# *.bak
+# *.backup
+# *.sqlite
+# *.sqlite3
 
 # Upload / file hasil generate milik user
 /assets/img/User/*
