@@ -211,7 +211,21 @@ Pastikan web server memiliki akses baca ke seluruh source code dan akses tulis h
 
 Untuk Apache, aktifkan modul PHP dan rewrite yang dibutuhkan oleh konfigurasi server. Untuk Nginx, arahkan request `.php` ke PHP-FPM dan pastikan `index.php` menjadi file index.
 
-### 7. Jalankan aplikasi
+### 7. Buat akun pertama
+
+Pada instalasi baru, jalankan [`generate_credential.php`](./generate_credential.php) melalui terminal dari direktori project untuk membuat akun login pertama:
+
+```bash
+php generate_credential.php
+```
+
+Pastikan database sudah diimpor, konfigurasi `_Config/Connection.php` sudah benar, ekstensi PHP `mysqli` tersedia, dan tabel `akses_entitas` memiliki minimal satu level akses. Tabel `akses` harus masih kosong; generator menolak berjalan jika akun sudah tersedia.
+
+Ikuti petunjuk terminal untuk memilih level akses serta memasukkan nama, nomor kontak, email, dan password. Setelah selesai, gunakan email dan password tersebut untuk login. Script hanya dapat dijalankan melalui PHP CLI, bukan melalui browser.
+
+Panduan lengkap tersedia pada [`generate_credential.md`](./generate_credential.md).
+
+### 8. Jalankan aplikasi
 
 Buka URL sesuai document root, misalnya:
 
@@ -229,7 +243,7 @@ php -S localhost:8000
 
 Kemudian buka `http://localhost:8000/` pada browser.
 
-### 8. Konfigurasi opsional
+### 9. Konfigurasi opsional
 
 Setelah berhasil login, lakukan konfigurasi sesuai kebutuhan:
 
