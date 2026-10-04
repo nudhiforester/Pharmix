@@ -2,7 +2,7 @@
     //Ini adalah halaman untuk melakukan konfigurasi database
     $servername = "localhost";
     $username   = "root";
-    $password   = "arunaparasilvanursari";
+    $password   = "";
     $db         = "pharmix";
 
     // Create connection

@@ -2,7 +2,12 @@
     //Jumlah Transaksi
     $SumTransaksi = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(jumlah) AS jumlah FROM transaksi"));
     $JumlahTransaksi = $SumTransaksi['jumlah'];
-    $JumlahTransaksi = "Rp " . number_format($JumlahTransaksi,0,',','.');
+    if(!empty($JumlahTransaksi)){
+       $JumlahTransaksi = "Rp " . number_format($JumlahTransaksi,0,',','.');
+    }else{
+        $JumlahTransaksi = 0;
+    }
+    
 ?>
 <div class="pagetitle">
     <h1>
