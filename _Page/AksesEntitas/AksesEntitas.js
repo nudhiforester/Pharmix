@@ -3,7 +3,7 @@ function filterAndLoadTable() {
     var ProsesFilter = $('#ProsesFilter').serialize();
 
     // Loading Table
-    $('#TabelAksesEntitas').html('<tr><td colspan="6" class="text-center">Loading...</td></tr>');
+    tableLoading('#TableAksesEntitas', true);
 
     // Show Row
     $.ajax({
@@ -12,11 +12,19 @@ function filterAndLoadTable() {
         data: ProsesFilter,
         success: function(data) {
             $('#TabelAksesEntitas').html(data);
+            initResponsiveTable('#TableAksesEntitas');
+        },
+        error: function() {
+            $('#TabelAksesEntitas').html('<tr class="table-empty"><td colspan="6" class="text-center text-danger"><small>Gagal memuat data entitas.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableAksesEntitas', false);
         }
     });
 }
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
+    initResponsiveTable('#TableAksesEntitas');
 
     // Menampilkan data pertama kali
     filterAndLoadTable();

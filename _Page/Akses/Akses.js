@@ -4,7 +4,7 @@ function filterAndLoadTable() {
     let target = $('#tabel_akses');
     let data   = $('#ProsesFilter').serialize();
 
-    target.addClass('blur-loading');
+    tableLoading('#TableAkses', true);
 
     $.ajax({
         type: 'POST',
@@ -15,9 +15,8 @@ function filterAndLoadTable() {
 
             if(res.status === "success"){
 
-                target.fadeOut(150, function () {
-                    target.html(res.html).fadeIn(150);
-                });
+                target.html(res.html);
+                initResponsiveTable('#TableAkses');
 
                 // Update info page
                 $('#page_info').html('Page ' + res.page + ' Of ' + res.total_page);
@@ -28,15 +27,22 @@ function filterAndLoadTable() {
 
             }else{
                 target.html(res.html);
+                initResponsiveTable('#TableAkses');
             }
 
-            target.removeClass('blur-loading');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="7" class="text-center text-danger"><small>Gagal memuat data akses.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableAkses', false);
         }
     });
 }
 
 
 $(document).ready(function() {
+    initResponsiveTable('#TableAkses');
 
     // Menampilkan Data Untuk Pertama Kali
     filterAndLoadTable();

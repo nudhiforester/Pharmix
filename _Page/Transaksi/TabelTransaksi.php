@@ -17,7 +17,7 @@
         echo json_encode([
             "status"     => "error",
             "html"       => '
-                <tr>
+                <tr class="table-empty">
                     <td colspan="11" class="text-center text-danger">
                         <small>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</small>
                     </td>
@@ -248,7 +248,7 @@
 
     if ($query->num_rows === 0) {
         $html .= '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="11" class="text-center text-danger py-4">
                     <small>
                         <i class="bi bi-info-circle"></i>
@@ -310,39 +310,39 @@
             // HTML Row
             $html .= '
                 <tr>
-                    <td class="text-center">
+                    <td class="table-number">
                         <small class="text-muted">' . $no . '</small>
                     </td>
-                    <td>
+                    <td class="table-title">
                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="' . $id_transaksi . '" class="text-decoration-none">
                             <small>' . $id_transaksi . '</small>
                         </a>
                     </td>
-                    <td>
+                    <td data-label="Tanggal">
                         <small>' . $TanggalFormat . '</small>
                     </td>
-                    <td>
+                    <td data-label="Nama Transaksi">
                         <small class="text-muted">' . $nama_transaksi . '</small>
                     </td>
-                    <td>
+                    <td data-label="Kategori">
                         <small class="text-muted">' . $kategori . '</small>
                     </td>
-                    <td>
+                    <td data-label="Jumlah">
                         <small class="text-muted">' . $JumlahFormat . '</small>
                     </td>
-                    <td>
+                    <td data-label="Tunai">
                         <small class="text-muted">' . $PembayaranCashFmt . '</small>
                     </td>
-                    <td>
+                    <td data-label="Termin">
                         <small class="text-muted">' . $TotalPembayaranFmt . '</small>
                     </td>
-                    <td>
+                    <td data-label="U/P">
                         <small class="text-muted">' . $SisaTagihanFmt . '</small>
                     </td>
-                    <td class="text-center">
+                    <td data-label="Status">
                         ' . $status_label . '
                     </td>
-                    <td class="text-center">
+                    <td class="table-action">
                         <a class="btn btn-sm btn-secondary btn-floating" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" title="Opsi">
                             <i class="bi bi-three-dots-vertical"></i>
                         </a>

@@ -23,8 +23,8 @@
     // ==========================================
     if (empty($SessionIdAkses)) {
         $response["html"] = '
-            <tr>
-                <td colspan="10" class="text-center text-danger">
+            <tr class="table-empty">
+                <td colspan="9" class="text-center text-danger">
                     Sesi Akses Sudah Berakhir! Silahkan Login Ulang
                 </td>
             </tr>
@@ -148,7 +148,7 @@
     $stmt_jml = mysqli_prepare($Conn, $sql_count);
 
     if (!$stmt_jml) {
-        $response["html"] = '<tr><td colspan="10" class="text-center text-danger">Terjadi kesalahan pada query database.</td></tr>';
+        $response["html"] = '<tr class="table-empty"><td colspan="9" class="text-center text-danger">Terjadi kesalahan pada query database.</td></tr>';
         echo json_encode($response);
         exit;
     }
@@ -168,7 +168,7 @@
     if ($jml_data < 1) {
         $response = [
             "status"     => "success",
-            "html"       => '<tr><td colspan="10" class="text-center text-muted">Tidak Ada Data Yang Ditampilkan.</td></tr>',
+            "html"       => '<tr class="table-empty"><td colspan="9" class="text-center text-muted">Tidak Ada Data Yang Ditampilkan.</td></tr>',
             "page"       => 1,
             "total_page" => 0
         ];
@@ -199,7 +199,7 @@
 
     $query = mysqli_prepare($Conn, $sql);
     if (!$query) {
-        $response["html"] = '<tr><td colspan="10" class="text-center text-danger">Gagal mempersiapkan query data.</td></tr>';
+        $response["html"] = '<tr class="table-empty"><td colspan="9" class="text-center text-danger">Gagal mempersiapkan query data.</td></tr>';
         echo json_encode($response);
         exit;
     }
@@ -297,23 +297,23 @@
         // Susun Baris HTML
         $html .= '
             <tr>
-                <td><small class="text-muted">' . $no . '</small></td>
-                <td>
+                <td class="table-number"><small class="text-muted">' . $no . '</small></td>
+                <td class="table-title">
                     <a href="javascript:void(0);" class="text" data-bs-toggle="modal" data-bs-target="#ModalDetailTransaksiJualBeli" data-id="' . $id_transaksi_jual_beli . '">
                         ' . $TanggalTransaksi . '
                     </a>
                 </td>
-                <td>' . $kategori . '</td>
-                <td><small>' . $total_rp . '</small></td>
-                <td><small>' . $cash_rp . '</small></td>
-                <td>
+                <td data-label="Transaksi">' . $kategori . '</td>
+                <td data-label="Total"><small>' . $total_rp . '</small></td>
+                <td data-label="Cash"><small>' . $cash_rp . '</small></td>
+                <td data-label="Termin">
                     <a href="Javascript:(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id="' . $id_transaksi_jual_beli . '" data-kategori="jual_beli" title="Bayar Piutang / Utang">
                         <i class="bi bi-pencil"></i> ' . $total_pembayaran_rp . '
                     </a>
                 </td>
-                <td><small>' . $sisa_pembayaran_rp . '</small></td>
-                <td>' . $label_status . '</td>
-                 <td>' . $tombol_tempo . '</td>
+                <td data-label="U/P"><small>' . $sisa_pembayaran_rp . '</small></td>
+                <td data-label="Status">' . $label_status . '</td>
+                 <td data-label="Tempo">' . $tombol_tempo . '</td>
             </tr>
         ';
         $no++;

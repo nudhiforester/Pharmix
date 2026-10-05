@@ -36,7 +36,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card card-data card-table">
                     <div class="card-header">
                         <form action="javascript:void(0);" id="ProsesBatas">
                             <div class="row">
@@ -51,9 +51,8 @@
                             </div>
                         </form>
                     </div>
-                    <div class="card-body">
-                        <div class="table table-responsive mt-2">
-                            <table class="table table-hover table-striped">
+                    <div class="table-load-container mt-3">
+                            <table class="table table-hover table-responsive-card" id="TableAksesFitur">
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
@@ -66,7 +65,7 @@
                                 </thead>
                                 <tbody id="MenampilkanTabelFitur">
                                     <!-- Menampilkan Tabel Fitur -->
-                                    <tr>
+                                    <tr class="table-empty">
                                         <td colspan="6" class="text-center">
                                             <small class="text-danger">Tidak Ada Data Fitur Yang Ditampilkan!</small>
                                         </td>
@@ -74,8 +73,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="card-footer">
+                    <div class="card-footer border-0">
                         <div class="row">
                             <div class="col-6">
                                 <small id="page_info">

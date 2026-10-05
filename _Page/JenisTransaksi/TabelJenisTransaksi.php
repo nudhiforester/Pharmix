@@ -301,11 +301,11 @@
                             <small>' . $nama . '</small>
                         </a>
                     </td>
-                    <td>' . $label_kategori . '</td>
-                    <td><small class="text-muted">' . $akun_debet_html . '</small></td>
-                    <td><small class="text-muted">' . $akun_kredit_html . '</small></td>
-                    <td><small class="text-muted">' . $akun_utang_piutang_html . '</small></td>
-                    <td><small class="text-muted">' . $jumlah_transaksi_rp . '</small></td>
+                    <td data-label="Kategori">' . $label_kategori . '</td>
+                    <td data-label="Akun Debet"><small class="text-muted">' . $akun_debet_html . '</small></td>
+                    <td data-label="Akun Kredit"><small class="text-muted">' . $akun_kredit_html . '</small></td>
+                    <td data-label="Utang/Piutang"><small class="text-muted">' . $akun_utang_piutang_html . '</small></td>
+                    <td data-label="Volume"><small class="text-muted">' . $jumlah_transaksi_rp . '</small></td>
                     <td class="table-action">
                         <button type="button" class="btn btn-sm btn-floating btn-secondary" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>

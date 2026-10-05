@@ -31,9 +31,9 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
+               <div class="card card-data card-table">
                     <div class="card-header">
-                       <div class="row">
+                        <div class="row">
                             <div class="col-md-12 text-end">
                                 <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-download"></i>
@@ -62,30 +62,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <td align="center"><b>No</b></td>
-                                        <td><b>Nama <i>Route</i></b></td>
-                                        <td><b><i>Display</i></b></td>
-                                        <td><b><i>Code</i></b></td>
-                                        <td><b><i>System</i></b></td>
-                                        <td align="center"><b>Opsi</b></td>
-                                    </tr>
-                                </thead>
-                                <tbody id="TabelRoute">
-                                    <tr>
-                                        <td class="text-center" colspan="6">
-                                            <small>Loading...</small>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-load-container mt-3">
+                        <table class="table table-hover table-responsive-card" id="TableRoute">
+                            <thead>
+                                <tr>
+                                    <th><b>No</b></th>
+                                    <th><b>Nama <i>Route</i></b></th>
+                                    <th><b><i>Display</i></b></th>
+                                    <th><b><i>Code</i></b></th>
+                                    <th><b><i>System</i></b></th>
+                                    <th><b>Opsi</b></th>
+                                </tr>
+                            </thead>
+                            <tbody id="TabelRoute">
+                                <tr class="table-empty">
+                                    <td class="text-center" colspan="6">
+                                        <small>Loading...</small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer border-0">
                         <div class="row">
                             <div class="col-6">
                                 <small id="page_info">

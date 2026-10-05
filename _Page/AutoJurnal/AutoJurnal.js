@@ -3,7 +3,7 @@
 // =======================================
 
 //Menampilkan Setting Autojurnal
-function ShowPembayaran() {
+function ShowAutoJurnal() {
     // Target And Filter
     let target = $('#list_auto_jurnal');
 
@@ -36,7 +36,7 @@ function ShowPembayaran() {
 $(document).ready(function() {
 
     // Pada Pertama Kali Muncul
-    ShowPembayaran();
+    ShowAutoJurnal();
 
     // Modal Edit Auto Jurnal
     $('#ModalEdit').on('show.bs.modal', function (e) {
@@ -141,7 +141,7 @@ $(document).ready(function() {
                     }
 
                     // Reload ulang daftar auto jurnal
-                    ShowPembayaran(); // Sesuaikan dengan fungsi load tabel Anda (misal: ShowAutoJurnal())
+                    ShowAutoJurnal(); // Sesuaikan dengan fungsi load tabel Anda (misal: ShowAutoJurnal())
                     
                 } else {
                     // Tampilkan pesan error di dalam modal

@@ -19,7 +19,7 @@
         echo json_encode([
             "status"     => "error",
             "html"       => '
-                <tr>
+                <tr class="table-empty">
                     <td colspan="8" class="text-center text-danger">
                         <small>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</small>
                     </td>
@@ -242,7 +242,7 @@
 
     if ($query->num_rows === 0) {
         $html .= '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="8" class="text-center py-4">
                     <small class="text-muted">
                         <i class="bi bi-info-circle me-1"></i> Tidak ada data yang ditampilkan.
@@ -296,30 +296,30 @@
             // HTML Row
             $html .= '
                 <tr>
-                    <td>
+                    <td class="table-number">
                         <small class="text-muted">' . $no . '</small>
                     </td>
-                    <td>
+                    <td class="table-title">
                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetailPembayaran" data-id="' . $id_transaksi_pembayaran . '">
                             '.$id_transaksi_pembayaran.'
                         </a>
                     </td>
-                    <td>'.$TanggalFormat.'</td>
-                    <td>
+                    <td data-label="Tanggal">'.$TanggalFormat.'</td>
+                    <td data-label="Referensi">
                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetailTransaksi" data-id="' . $id_ref . '" data-database="' . $database_transaksi . '">
                             ' . $ref_text . '
                         </a>
                     </td>
-                    <td>
+                    <td data-label="Transaksi">
                         <small class="text-muted">' . $kat_trans . '</small>
                     </td>
-                    <td>
+                    <td data-label="Nominal">
                         <small class="text-muted fw-bold">' . $NominalFormat . '</small>
                     </td>
-                    <td>
+                    <td data-label="Petugas">
                         <small class="text-muted">' . $petugas . '</small>
                     </td>
-                    <td class="">
+                    <td class="table-action">
                         <a class="btn btn-sm btn-secondary btn-floating" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" title="Opsi">
                             <i class="bi bi-three-dots-vertical"></i>
                         </a>

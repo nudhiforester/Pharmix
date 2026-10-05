@@ -25,7 +25,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card card-data card-table">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-12 text-end">
@@ -38,9 +38,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table table-responsive mt-3 mb-3">
-                        <table class="table table-striped table-hover">
+                <div class="table-load-container mt-3">
+                        <table class="table table-hover table-responsive-card" id="TableAkses">
                             <thead>
                                 <tr>
                                     <th><b>No</b></th>
@@ -53,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tabel_akses">
-                                <tr>
+                                <tr class="table-empty">
                                     <td class="text-center" colspan="7">
                                         <small class="text-muted">No Data</small>
                                     </td>
@@ -61,8 +60,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="card-footer">
+                <div class="card-footer border-0">
                     <div class="row">
                         <div class="col-6">
                             <small id="page_info">

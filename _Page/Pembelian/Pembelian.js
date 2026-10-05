@@ -1,13 +1,21 @@
 //Fungsi Menampilkan Data Transaksi
 function ShowData() {
-    var ProsesFilter = $('#ProsesFilter').serialize();
-    $('#TabelPembelian').html('<tr><td class="text-center">Loading...</td></tr>');
+    var data = $('#ProsesFilter').serialize();
+    var target = $('#TabelPembelian');
+    tableLoading('#TablePembelian', true);
     $.ajax({
-        type    : 'POST',
-        url     : '_Page/Pembelian/TabelPembelian.php',
-        data    : ProsesFilter,
+        type: 'POST',
+        url: '_Page/Pembelian/TabelPembelian.php',
+        data: data,
         success: function(data) {
-            $('#TabelPembelian').html(data);
+            target.html(data);
+            initResponsiveTable('#TablePembelian');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="8" class="text-center text-danger"><small>Gagal memuat data.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TablePembelian', false);
         }
     });
 }
@@ -508,6 +516,7 @@ function ShowDetailTransaksiInline(id_transaksi_jual_beli) {
 
 
 $(document).ready(function() {
+    initResponsiveTable('.table-responsive-card');
 
     //Format Uang Pertama kali
     initializeMoneyInputs();

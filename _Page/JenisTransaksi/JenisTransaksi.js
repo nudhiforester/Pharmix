@@ -7,7 +7,6 @@ function ShowData() {
     const table  = '#tabel_jenis_transaksi';
     const target = $('#TabelJenisTransaksi');
     const data   = $('#ProsesFilter').serialize();
-    tableLoading('#TabelJenisTransaksi', true);
     $.ajax({
         type    : 'POST',
         url     : '_Page/JenisTransaksi/TabelJenisTransaksi.php',
@@ -215,6 +214,7 @@ function initSelectAkunEdit(selector, placeholder) {
 // Event Handler
 // ===============================================
 $(document).ready(function() {
+    initResponsiveTable('.table-responsive-card');
 
     // Menampilkan Data Pertama Kali
     ShowData();

@@ -97,7 +97,7 @@
             <div class="col-md-12">
                 <div class="alert alert-warning text-center mt-4 mb-4">
                     <h1 class="bi bi-exclamation-circle"></h1>
-                    No Data
+                    Data Akun Perkiraan Belum Ada. Silahkan tambahkan beberapa akun perkiraan terlebih dulu.
                 </div>
             </div>
         ';

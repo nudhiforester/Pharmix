@@ -31,7 +31,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card card-data card-table">
                     <div class="card-header">
                        <div class="row">
                             <div class="col-md-12 text-end">
@@ -62,20 +62,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table mt-3 mb-3 table-responsive">
-                            <table class="table table-striped table-hover">
+                    <div class="table-load-container mt-3">
+                            <table class="table table-hover table-responsive-card" id="TableSatuanDenominator">
                                 <thead>
                                     <tr>
-                                        <td align="center"><b>No</b></td>
-                                        <td><b><i>Display</i></b></td>
-                                        <td><b><i>Code</i></b></td>
-                                        <td><b><i>System</i></b></td>
-                                        <td align="center"><b>Opsi</b></td>
+                                        <th><b>No</b></th>
+                                        <th><b><i>Display</i></b></th>
+                                        <th><b><i>Code</i></b></th>
+                                        <th><b><i>System</i></b></th>
+                                        <th><b>Opsi</b></th>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelSatuan">
-                                    <tr>
+                                    <tr class="table-empty">
                                         <td class="text-center" colspan="5">
                                             <small>Loading...</small>
                                         </td>
@@ -83,8 +82,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="card-footer">
+                    <div class="card-footer border-0">
                         <div class="row">
                             <div class="col-6">
                                 <small id="page_info">

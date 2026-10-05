@@ -35,7 +35,7 @@
         <!-- Data View -->
         <div class="row" id="data_view">
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card card-data card-table">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-12 text-end">
@@ -51,33 +51,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table table-responsive mt-3">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center"><small><b>No</b></small></th>
-                                        <th><small><b>Kode</b></small></th>
-                                        <th><small><b>Tanggal</b></small></th>
-                                        <th><small><b>Nama Transaksi</b></small></th>
-                                        <th><small><b>Kategori</b></small></th>
-                                        <th><small><b>Jumlah</b></small></th>
-                                        <th><small><b>Tunai</b></small></th>
-                                        <th><small><b>Termin</b></small></th>
-                                        <th><small><b>U/P</b></small></th>
-                                        <th class="text-center"><small><b>Status</b></small></th>
-                                        <th class="text-center"><small><b>Opsi</b></small></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabel_transaksi">
-                                    <tr>
-                                        <td class="text-center" colspan="11">
-                                            <small>No Data</small>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-load-container mt-3 mb-3">
+                        <table class="table table-hover table-responsive-card" id="TableTransaksi">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><small><b>No</b></small></th>
+                                    <th><small><b>Kode</b></small></th>
+                                    <th><small><b>Tanggal</b></small></th>
+                                    <th><small><b>Nama Transaksi</b></small></th>
+                                    <th><small><b>Kategori</b></small></th>
+                                    <th><small><b>Jumlah</b></small></th>
+                                    <th><small><b>Tunai</b></small></th>
+                                    <th><small><b>Termin</b></small></th>
+                                    <th><small><b>U/P</b></small></th>
+                                    <th class="text-center"><small><b>Status</b></small></th>
+                                    <th class="text-center"><small><b>Opsi</b></small></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel_transaksi">
+                                <tr class="table-empty">
+                                    <td class="text-center" colspan="11">
+                                        <small>No Data</small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                      <div class="card-footer">
                         <div class="row">

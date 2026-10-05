@@ -1,12 +1,20 @@
 //Fungsi Menampilkan Data
 function filterAndLoadTable() {
     var ProsesFilter = $('#ProsesFilter').serialize();
+    tableLoading('#TableAksesFitur', true);
     $.ajax({
         type: 'POST',
         url: '_Page/AksesFitur/TabelAksesFitur.php',
         data: ProsesFilter,
         success: function(data) {
             $('#MenampilkanTabelFitur').html(data);
+            initResponsiveTable('#TableAksesFitur');
+        },
+        error: function() {
+            $('#MenampilkanTabelFitur').html('<tr class="table-empty"><td colspan="6" class="text-center text-danger"><small>Gagal memuat data fitur.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableAksesFitur', false);
         }
     });
 }
@@ -23,6 +31,7 @@ function generateRandomString(length) {
 }
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
+    initResponsiveTable('#TableAksesFitur');
     filterAndLoadTable();
 
     // Auto Focus ModalFilter

@@ -22,7 +22,7 @@
         echo json_encode([
             "status"     => "error",
             "html"       => '
-                <tr>
+                <tr class="table-empty">
                     <td colspan="7" class="text-center text-danger">
                         <small>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</small>
                     </td>
@@ -364,7 +364,7 @@
     if ($query->num_rows === 0) {
 
         $html .= '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="7" class="text-center text-muted">
                     <small>Tidak ada data yang ditampilkan.</small>
                 </td>
@@ -416,14 +416,14 @@
                 <tr>
 
                     <!-- NO -->
-                    <td>
+                    <td class="table-number">
                         <small class="text-muted">
                             ' . $no . '
                         </small>
                     </td>
 
                     <!-- NAMA -->
-                    <td>
+                    <td class="table-title">
                         <a
                             class="modal_detail"
                             href="javascript:void(0)"
@@ -438,35 +438,35 @@
                     </td>
 
                     <!-- EMAIL -->
-                    <td>
+                    <td data-label="Email">
                         <small class="text-muted">
                             ' . $email_akses . '
                         </small>
                     </td>
 
                     <!-- KONTAK -->
-                    <td>
+                    <td data-label="Kontak">
                         <small class="text-muted">
                             ' . $kontak_akses . '
                         </small>
                     </td>
 
                     <!-- AKSES -->
-                    <td>
+                    <td data-label="Level/Entitas">
                         <small class="text-muted">
                             ' . $akses . '
                         </small>
                     </td>
 
                     <!-- JUMLAH FITUR -->
-                    <td>
+                    <td data-label="Role">
                         <small class="text-muted">
                             ' . $jumlah_item . ' Fitur
                         </small>
                     </td>
 
                     <!-- ACTION -->
-                    <td class="text-center">
+                    <td class="table-action">
 
                         <button
                             type="button"

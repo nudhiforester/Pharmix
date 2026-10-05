@@ -9,7 +9,7 @@
     //Validasi Akses
     if(empty($SessionIdAkses)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="7" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
@@ -72,7 +72,7 @@
         $JmlHalaman = ceil($jml_data/$batas); 
         if(empty($jml_data)){
             echo '
-                <tr>
+                <tr class="table-empty">
                     <td colspan="7" class="text-center">
                         <small class="text-danger">Tidak Ada Data Yang Ditampilkan!</small>
                     </td>
@@ -111,17 +111,17 @@
                 // Tampilkan Data
                 echo '
                     <tr>
-                        <td class="text-center"><small>'.$no.'</small></td>
-                        <td><small>'.$display.'</small></td>
-                        <td><small>'.$category.'</small></td>
-                        <td><small>'.$group_label.'</small></td>
-                        <td><small>'.$code.'</small></td>
-                        <td>
+                        <td class="table-number"><small>'.$no.'</small></td>
+                        <td class="table-title"><small>'.$display.'</small></td>
+                        <td data-label="Category"><small class="text-muted">'.$category.'</small></td>
+                        <td data-label="Group"><small>'.$group_label.'</small></td>
+                        <td data-label="Code"><small class="text-muted">'.$code.'</small></td>
+                        <td data-label="System">
                             <small>
                                 <a href="'.$system_referensi.'" target="_blank" class="text text-decoration-underline">'.$system_referensi.'</a>
                             </small>
                         </td>
-                        <td class="text-center">
+                        <td class="table-action">
                             <button type="button" class="btn btn-sm btn-secondary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
                             </button>

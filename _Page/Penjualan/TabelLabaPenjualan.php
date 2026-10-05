@@ -10,7 +10,7 @@
     
     if(empty($SessionIdAkses)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="12" class="text-center text-danger">
                     Sesi Akses Sudah Berakhir! Silahkan Login Ulang
                 </td>
@@ -92,7 +92,7 @@
     
     if(empty($jml_data)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="12" class="text-center text-danger">
                     Tidak Ada Data Laba Transaksi Yang Ditampilkan.
                 </td>
@@ -156,22 +156,22 @@
             
             echo '
                 <tr>
-                    <td><small>'.$no.'</small></td>
-                    <td>
+                    <td class="table-number"><small>'.$no.'</small></td>
+                    <td data-label="Tgl">
                         <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_transaksi_jual_beli.'">
                             <small>'.$TanggalTransaksi.'</small>
                         </a>
                     </td>
-                    <td><small>'.$label_kategori.'</small></td>
-                    <td><small>'.$nama_barang.'</small></td>
-                    <td><small>'.$hpp_rp.'</small></td>
-                    <td><small>'.$harga_rp.'</small></td>
-                    <td><small>'.$qty.' '.$satuan.'</small></td>
-                    <td><small>'.$ppn_rp.'</small></td>
-                    <td><small>'.$diskon_rp.'</small></td>
-                    <td><small>'.$subtotal_rp.'</small></td>
-                    <td><small>'.$total_hpp_rp.'</small></td>
-                    <td><small>'.$label_margin.'</small></td>
+                    <td data-label="Kategori"><small>'.$label_kategori.'</small></td>
+                    <td class="table-title"><small>'.$nama_barang.'</small></td>
+                    <td data-label="H.Beli"><small>'.$hpp_rp.'</small></td>
+                    <td data-label="H.Jual"><small>'.$harga_rp.'</small></td>
+                    <td data-label="QTY"><small>'.$qty.' '.$satuan.'</small></td>
+                    <td data-label="PPN"><small>'.$ppn_rp.'</small></td>
+                    <td data-label="DSC"><small>'.$diskon_rp.'</small></td>
+                    <td data-label="Subtotal"><small>'.$subtotal_rp.'</small></td>
+                    <td data-label="HPP"><small>'.$total_hpp_rp.'</small></td>
+                    <td data-label="Margin"><small>'.$label_margin.'</small></td>
                 </tr>
             ';
             $no++;

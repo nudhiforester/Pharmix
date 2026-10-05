@@ -8,7 +8,7 @@ function ShowData() {
     let target = $('#tabel_transaksi');
     let data   = $('#ProsesFilter').serialize();
 
-    target.addClass('blur-loading');
+    tableLoading('#TableTransaksi', true);
 
     $.ajax({
         type    : 'POST',
@@ -19,9 +19,8 @@ function ShowData() {
 
             if(res.status === "success"){
 
-                target.fadeOut(150, function () {
-                    target.html(res.html).fadeIn(150);
-                });
+                target.html(res.html);
+                initResponsiveTable('#TableTransaksi');
 
                 // Update info page
                 $('#page_info').html('Page ' + res.page + ' Of ' + res.total_page);
@@ -32,9 +31,14 @@ function ShowData() {
 
             }else{
                 target.html(res.html);
+                initResponsiveTable('#TableTransaksi');
             }
-
-            target.removeClass('blur-loading');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="11" class="text-center text-danger"><small>Gagal memuat data.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableTransaksi', false);
         }
     });
 }
@@ -417,6 +421,7 @@ function hitungJumlahRincian() {
 // EVENT LISTENER
 // ===============================================
 $(document).ready(function() {
+    initResponsiveTable('.table-responsive-card');
 
     // Tampilkan 'data_view'
     $('#data_view').show();

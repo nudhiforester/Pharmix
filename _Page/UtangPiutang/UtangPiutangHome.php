@@ -193,36 +193,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row mt-3 mb-3">
-                                <div class="col-12">
-                                    <div class="table table-responsive mb-3 mt-3">
-                                        <table class="table table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th><b>No</b></th>
-                                                    <th><b>ID/Kode</b></th>
-                                                    <th><b>Tanggal</b></th>
-                                                    <th><b>Transaksi</b></th>
-                                                    <th><b>Total</b></th>
-                                                    <th><b>Cash</b></th>
-                                                    <th><b>Termin</b></th>
-                                                    <th><b>U/P</b></th>
-                                                    <th><b>Status</b></th>
-                                                    <th><b>Tempo</b></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tabel_operasional">
-                                                <tr>
-                                                    <td colspan="11" class="text-center">
-                                                        <small class="text-muted">No Data</small>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="table-load-container mt-3 mb-3">
+                            <table class="table table-hover table-responsive-card" id="TableUtangOperasional">
+                                <thead>
+                                    <tr>
+                                        <th><b>No</b></th>
+                                        <th><b>ID/Kode</b></th>
+                                        <th><b>Tanggal</b></th>
+                                        <th><b>Transaksi</b></th>
+                                        <th><b>Total</b></th>
+                                        <th><b>Cash</b></th>
+                                        <th><b>Termin</b></th>
+                                        <th><b>U/P</b></th>
+                                        <th><b>Status</b></th>
+                                        <th><b>Tempo</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel_operasional">
+                                    <tr class="table-empty">
+                                        <td colspan="11" class="text-center">
+                                            <small class="text-muted">No Data</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="card-footer">
                             <div class="row">
@@ -266,8 +260,8 @@
                         <div class="card-body">
                             <div class="row mt-3 mb-3">
                                 <div class="col-12">
-                                    <div class="table table-responsive mb-3 mt-3">
-                                        <table class="table table-striped table-hover">
+                                    <div class="table-load-container mt-3 mb-3">
+                                        <table class="table table-hover table-responsive-card" id="TableUtangJualBeli">
                                             <thead>
                                                 <tr>
                                                     <th><b>No</b></th>
@@ -282,8 +276,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="tabel_utang_piutang">
-                                                <tr>
-                                                    <td colspan="10" class="text-center">
+                                                <tr class="table-empty">
+                                                    <td colspan="9" class="text-center">
                                                         <small class="text-muted">No Data</small>
                                                     </td>
                                                 </tr>

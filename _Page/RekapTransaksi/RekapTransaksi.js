@@ -259,7 +259,7 @@ function ShowTable() {
 
     //------ Tampilkan Loading
     $('#tabel_transaksi').html(`
-        <tr>
+        <tr class="table-empty">
             <td colspan="8" class="text-center py-4">
                 <div class="spinner-border spinner-border-sm text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -270,6 +270,8 @@ function ShowTable() {
             </td>
         </tr>
     `);
+
+    tableLoading('#TableRekapTransaksi', true);
 
     // ==== AJAX REQUEST
     $.ajax({
@@ -285,7 +287,7 @@ function ShowTable() {
             //------ Validasi Response
             if (!response.status) {
                 $('#tabel_transaksi').html(`
-                    <tr>
+                    <tr class="table-empty">
                         <td colspan="8" class="text-center">
                             <div class="alert alert-danger mb-0">
                                 ${response.message ?? 'Gagal mengambil data transaksi.'}
@@ -299,7 +301,7 @@ function ShowTable() {
             //------ Validasi Data Kosong
             if (!response.data || response.data.length === 0) {
                 $('#tabel_transaksi').html(`
-                    <tr>
+                    <tr class="table-empty">
                         <td colspan="8" class="text-center">
                             <small class="text-muted">
                                 Tidak ada data transaksi
@@ -321,9 +323,9 @@ function ShowTable() {
 
                     html += `
                         <tr class="fw-bold table-secondary">
-                            <td></td>
-                            <td></td>
-                            <td class="text-center">
+                            <td class="table-number" style="visibility: hidden;"></td>
+                            <td class="d-none d-xl-table-cell"></td>
+                            <td class="table-title">
                                 TOTAL
                             </td>
                             <td>${FormatRupiah(data.subtotal)}</td>
@@ -344,13 +346,13 @@ function ShowTable() {
                             data-bulan="${data.bulan_index}"
                             style="cursor: pointer;"
                         >
-                            <td>
+                            <td class="table-number">
                                 ${index + 1}
                             </td>
                             <td>
                                 ${data.tahun}
                             </td>
-                            <td>
+                            <td class="table-title">
                                 ${data.bulan}
                             </td>
                             <td>${FormatRupiah(data.subtotal)}</td>
@@ -372,7 +374,7 @@ function ShowTable() {
             console.error(xhr.responseText);
 
             $('#tabel_transaksi').html(`
-                <tr>
+                <tr class="table-empty">
                     <td colspan="8" class="text-center">
                         <div class="alert alert-danger mb-0">
                             Terjadi kesalahan saat mengambil data transaksi.
@@ -380,7 +382,10 @@ function ShowTable() {
                     </td>
                 </tr>
             `);
-
+        },
+        complete: function() {
+            initResponsiveTable('#TableRekapTransaksi');
+            tableLoading('#TableRekapTransaksi', false);
         }
     });
 }
@@ -464,6 +469,7 @@ function ShowFormExportTransaksi() {
 // EVENT LISTENER
 //=====================================
 $(document).ready(function() {
+    initResponsiveTable('.table-responsive-card');
 
     // Pertama Kali Halaman Di Load
     LoadTahunGrafik();

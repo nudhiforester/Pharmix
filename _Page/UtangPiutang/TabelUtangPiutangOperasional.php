@@ -23,8 +23,8 @@
     // ======================================================
     if (empty($SessionIdAkses)) {
         $response["html"] = '
-            <tr>
-                <td colspan="11" class="text-center text-danger">
+            <tr class="table-empty">
+                <td colspan="10" class="text-center text-danger">
                     Sesi Akses Sudah Berakhir! Silahkan Login Ulang
                 </td>
             </tr>
@@ -214,8 +214,8 @@
 
     if (!$stmt) {
         $response["html"] = '
-            <tr>
-                <td colspan="11" class="text-center text-danger">
+            <tr class="table-empty">
+                <td colspan="10" class="text-center text-danger">
                     Terjadi kesalahan pada query database.
                 </td>
             </tr>
@@ -328,24 +328,24 @@
 
         $html .= '
             <tr>
-                <td class="text-center">' . $no . '</td>
-                <td>
+                <td class="table-number">' . $no . '</td>
+                <td class="table-title">
                     <a href="javascript:void(0);" class="text" data-bs-toggle="modal" data-bs-target="#ModalDetailTransaksiOperasional" data-id="' . $id_transaksi . '">
                         ' . $id_transaksi . '
                     </a>
                 </td>
-                <td><small>' . $tanggal . '</small></td>
-                <td><small>' . $nama . '</small></td>
-                <td>' . FormatRupiahOperasional($jumlah) . '</td>
-                <td>' . FormatRupiahOperasional($pembayaran_cash) . '</td>
-                <td>
+                <td data-label="Tanggal"><small>' . $tanggal . '</small></td>
+                <td data-label="Transaksi"><small>' . $nama . '</small></td>
+                <td data-label="Total">' . FormatRupiahOperasional($jumlah) . '</td>
+                <td data-label="Cash">' . FormatRupiahOperasional($pembayaran_cash) . '</td>
+                <td data-label="Termin">
                     <a href="Javascript:(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id="' . $id_transaksi . '" data-kategori="operasional" title="Bayar Piutang / Utang">
                         <i class="bi bi-pencil"></i> ' . FormatRupiahOperasional($total_pembayaran) . '
                     </a>
                 </td>
-                <td>' . FormatRupiahOperasional($sisa) . '</td>
-                <td>' . $statusBadge . '</td>
-                <td>' . $tombol_tempo . '</td>
+                <td data-label="U/P">' . FormatRupiahOperasional($sisa) . '</td>
+                <td data-label="Status">' . $statusBadge . '</td>
+                <td data-label="Tempo">' . $tombol_tempo . '</td>
             </tr>
         ';
 
@@ -357,8 +357,8 @@
     // ======================================================
     if (empty($html)) {
         $html = '
-            <tr>
-                <td colspan="11" class="text-center">
+            <tr class="table-empty">
+                <td colspan="10" class="text-center">
                     <small class="text-muted">Tidak Ada Data</small>
                 </td>
             </tr>

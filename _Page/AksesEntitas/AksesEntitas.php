@@ -34,7 +34,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card card-data card-table">
                     <div class="card-header">
                         <form action="javascript:void(0);" id="ProsesBatas">
                             <div class="row">
@@ -49,19 +49,18 @@
                             </div>
                         </form>
                     </div>
-                    <div class="card-body">
-                        <div class="table table-responsive mt-3">
-                            <table class="table table-striped">
-                                <thead>
-                                    <td align="center"><b>No</b></td>
-                                    <td align="left"><b>Entitias</b></td>
-                                    <td align="left"><b>Keterangan</b></td>
-                                    <td align="left"><b>Pengguna</b></td>
-                                    <td align="left"><b>Role</b></td>
-                                    <td align="center"><b>Opsi</b></td>
-                                </thead>
+                    <div class="table-load-container mt-3">
+                            <table class="table table-hover table-responsive-card" id="TableAksesEntitas">
+                                <thead><tr>
+                                    <th><b>No</b></th>
+                                    <th><b>Entitias</b></th>
+                                    <th><b>Keterangan</b></th>
+                                    <th><b>Pengguna</b></th>
+                                    <th><b>Role</b></th>
+                                    <th><b>Opsi</b></th>
+                                </tr></thead>
                                 <tbody id="TabelAksesEntitas">
-                                    <tr>
+                                    <tr class="table-empty">
                                         <td class="text-center" colspan="6">
                                             <small>No Data</small>
                                         </td>
@@ -69,8 +68,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="card-footer">
+                    <div class="card-footer border-0">
                         <div class="row">
                             <div class="col-6">
                                 <small id="page_info">

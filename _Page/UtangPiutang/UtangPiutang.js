@@ -117,7 +117,7 @@ function ShowUtangPiutangOperasional() {
     let target = $('#tabel_operasional');
     let data   = $('#ProsesFilterOperasional').serialize();
 
-    target.addClass('blur-loading');
+    tableLoading('#TableUtangOperasional', true);
 
     $.ajax({
         type    : 'POST',
@@ -128,9 +128,8 @@ function ShowUtangPiutangOperasional() {
 
             if(res.status === "success"){
 
-                target.fadeOut(150, function () {
-                    target.html(res.html).fadeIn(150);
-                });
+                target.html(res.html);
+                initResponsiveTable('#TableUtangOperasional');
 
                 // Update info page
                 $('#page_info_operasional').html('Page ' + res.page + ' Of ' + res.total_page);
@@ -141,9 +140,14 @@ function ShowUtangPiutangOperasional() {
 
             }else{
                 target.html(res.html);
+                initResponsiveTable('#TableUtangOperasional');
             }
-
-            target.removeClass('blur-loading');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="10" class="text-center text-danger"><small>Gagal memuat data.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableUtangOperasional', false);
         }
     });
 }
@@ -154,7 +158,7 @@ function ShowUtangPiutangJualBeli() {
     let target = $('#tabel_utang_piutang');
     let data   = $('#ProsesFilter').serialize();
 
-    target.addClass('blur-loading');
+    tableLoading('#TableUtangJualBeli', true);
 
     $.ajax({
         type    : 'POST',
@@ -165,9 +169,8 @@ function ShowUtangPiutangJualBeli() {
 
             if(res.status === "success"){
 
-                target.fadeOut(150, function () {
-                    target.html(res.html).fadeIn(150);
-                });
+                target.html(res.html);
+                initResponsiveTable('#TableUtangJualBeli');
 
                 // Update info page
                 $('#page_info').html('Page ' + res.page + ' Of ' + res.total_page);
@@ -178,9 +181,14 @@ function ShowUtangPiutangJualBeli() {
 
             }else{
                 target.html(res.html);
+                initResponsiveTable('#TableUtangJualBeli');
             }
-
-            target.removeClass('blur-loading');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="9" class="text-center text-danger"><small>Gagal memuat data.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableUtangJualBeli', false);
         }
     });
 }
@@ -290,6 +298,7 @@ function initializeMoneyInputs() {
 }
 
 $(document).ready(function() {
+    initResponsiveTable('.table-responsive-card');
 
     //Menampilkan Data Pertama Kali
     ShowCount();

@@ -1,37 +1,43 @@
 // Fungsi Menampilkan Data Transaksi
 function ShowData() {
-    var ProsesFilter = $('#ProsesFilter').serialize();
-    $('#TabelPenjualan').fadeOut(200, function() {
-        $(this).html('<tr><td class="text-center">Loading...</td></tr>').fadeIn(200);
-    });
-
+    var data = $('#ProsesFilter').serialize();
+    var target = $('#TabelPenjualan');
+    tableLoading('#TablePenjualan', true);
     $.ajax({
         type: 'POST',
         url: '_Page/Penjualan/TabelPenjualan.php',
-        data: ProsesFilter,
+        data: data,
         success: function(data) {
-            $('#TabelPenjualan').fadeOut(200, function() {
-                $(this).html(data).fadeIn(200);
-            });
+            target.html(data);
+            initResponsiveTable('#TablePenjualan');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="8" class="text-center text-danger"><small>Gagal memuat data.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TablePenjualan', false);
         }
     });
 }
 
 // Fungsi Menampilkan Data Laba Penjualan
 function ShowDataLaba() {
-    var ProsesFilterLaba = $('#ProsesFilterLaba').serialize();
-    $('#TabelLabaPenjualan').fadeOut(200, function() {
-        $(this).html('<tr><td class="text-center">Loading...</td></tr>').fadeIn(200);
-    });
-
+    var data = $('#ProsesFilterLaba').serialize();
+    var target = $('#TabelLabaPenjualan');
+    tableLoading('#TableLabaPenjualan', true);
     $.ajax({
         type: 'POST',
         url: '_Page/Penjualan/TabelLabaPenjualan.php',
-        data: ProsesFilterLaba,
+        data: data,
         success: function(data) {
-            $('#TabelLabaPenjualan').fadeOut(200, function() {
-                $(this).html(data).fadeIn(200);
-            });
+            target.html(data);
+            initResponsiveTable('#TableLabaPenjualan');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="12" class="text-center text-danger"><small>Gagal memuat data.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableLabaPenjualan', false);
         }
     });
 }
@@ -517,6 +523,7 @@ function ShowDetailTransaksiInline(id_transaksi_jual_beli) {
 
 
 $(document).ready(function() {
+    initResponsiveTable('.table-responsive-card');
 
     //Format Uang Pertama kali
     initializeMoneyInputs();

@@ -3,12 +3,7 @@ function ShowData() {
     var ProsesFilter = $('#ProsesFilter').serialize();
     var $tabel       = $('#TabelSediaan');
 
-    // Tambahkan efek visual loading (opacity menurun)
-    $tabel.css({
-        'opacity': '0.5',
-        'pointer-events': 'none',
-        'transition': 'opacity 0.3s ease'
-    });
+    tableLoading('#TableSediaan', true);
 
     $.ajax({
         type   : 'POST',
@@ -18,21 +13,16 @@ function ShowData() {
             // Ganti isi tabel tanpa mengganti elemen induk
             $tabel.html(data);
 
-            // Kembalikan efek normal
-            $tabel.css({
-                'opacity': '1',
-                'pointer-events': 'auto'
-            });
+            initResponsiveTable('#TableSediaan');
             
             // 🔁 Re-inisialisasi tooltip setelah data dimuat
             $('[data-bs-toggle="tooltip"]').tooltip();
         },
         error: function() {
-            $tabel.html('<tr><td class="text-center" colspan="5"><small class="text-danger">Gagal Memuat, Silahkan Coba Lagi!</small></td></tr>');
-            $tabel.css({
-                'opacity': '1',
-                'pointer-events': 'auto'
-            });
+            $tabel.html('<tr class="table-empty"><td class="text-center" colspan="7"><small class="text-danger">Gagal Memuat, Silahkan Coba Lagi!</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TableSediaan', false);
         }
     });
 }
@@ -40,6 +30,7 @@ function ShowData() {
 
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
+    initResponsiveTable('#TableSediaan');
 
     //Menampilkan Data Pertama Kali
     ShowData();

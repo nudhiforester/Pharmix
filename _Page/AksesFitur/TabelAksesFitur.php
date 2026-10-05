@@ -11,7 +11,7 @@
     //Validasi Akses
     if(empty($SessionIdAkses)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="6" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
@@ -91,7 +91,7 @@
         $JmlHalaman = ceil($jml_data/$batas); 
         if(empty($jml_data)){
             echo '
-                <tr>
+                <tr class="table-empty">
                     <td colspan="6" class="text-center">
                         <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
                     </td>
@@ -172,16 +172,16 @@
                 }
                 echo '
                     <tr>
-                        <td><small>'.$no.'</small></td>
-                        <td>
+                        <td class="table-number"><small>'.$no.'</small></td>
+                        <td class="table-title">
                             <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetailFitur" data-id="'.$id_akses_fitur.'">
                                 <small>'.$nama.'</small>
                             </a>
                         </td>
-                        <td><small>'.$kategori.'</small></td>
-                        <td><small class="text-muted">'.$kode.'</small></td>
-                        <td><small>'.$label_jumlah_pengguna.'</small></td>
-                        <td>
+                        <td data-label="Kategori"><small>'.$kategori.'</small></td>
+                        <td data-label="Kode"><small class="text-muted">'.$kode.'</small></td>
+                        <td data-label="Akses/User"><small>'.$label_jumlah_pengguna.'</small></td>
+                        <td class="table-action">
                             <button type="button" class="btn btn-sm btn-secondary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
                             </button>

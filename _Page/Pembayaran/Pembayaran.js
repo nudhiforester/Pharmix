@@ -8,7 +8,7 @@ function ShowPembayaran() {
     let target = $('#tabel_pembayaran');
     let data   = $('#ProsesFilter').serialize();
 
-    target.addClass('blur-loading');
+    tableLoading('#TablePembayaran', true);
 
     $.ajax({
         type    : 'POST',
@@ -19,9 +19,8 @@ function ShowPembayaran() {
 
             if(res.status === "success"){
 
-                target.fadeOut(150, function () {
-                    target.html(res.html).fadeIn(150);
-                });
+                target.html(res.html);
+                initResponsiveTable('#TablePembayaran');
 
                 // Update info page
                 $('#page_info').html('Page ' + res.page + ' Of ' + res.total_page);
@@ -32,9 +31,14 @@ function ShowPembayaran() {
 
             }else{
                 target.html(res.html);
+                initResponsiveTable('#TablePembayaran');
             }
-
-            target.removeClass('blur-loading');
+        },
+        error: function() {
+            target.html('<tr class="table-empty"><td colspan="8" class="text-center text-danger"><small>Gagal memuat data.</small></td></tr>');
+        },
+        complete: function() {
+            tableLoading('#TablePembayaran', false);
         }
     });
 }
@@ -255,6 +259,7 @@ function ShowDetailPembayaran(id_pembayaran){
 // EVENT LISTENER
 // =======================================
 $(document).ready(function() {
+    initResponsiveTable('.table-responsive-card');
 
     //------------------------------------
     // Menampilkan Data Pertama Kali

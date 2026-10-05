@@ -74,8 +74,8 @@
                     <div class="card-body">
                         <div class="row mb-3 mt-3">
                             <div class="col-md-12">
-                                <div class="table table-responsive">
-                                    <table class="table table-striped table-hover table-md">
+                                <div class="table-load-container mt-3 mb-3">
+                                    <table class="table table-hover table-responsive-card" id="TableRekapTransaksi">
                                         <thead>
                                             <tr>
                                                 <th><b>No</b></th>
@@ -89,7 +89,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="tabel_transaksi">
-                                            <tr>
+                                            <tr class="table-empty">
                                                 <td colspan="8" class="text-center">
                                                     <small class="text-muted">No Data</small>
                                                 </td>

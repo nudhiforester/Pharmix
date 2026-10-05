@@ -19,9 +19,29 @@
         </nav>
     </div>
 
+    <style>
+        .setting-general-layout > div { display: flex; margin-bottom: 24px; }
+        .setting-general-layout form { display: flex; width: 100%; }
+        .setting-general-layout .card { width: 100%; margin-bottom: 0; }
+        .setting-general-layout .card-footer { margin-top: auto; }
+        .setting-upload-box {
+            position: relative; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 8px;
+            min-height: 180px; padding: 24px 16px; width: 100%;
+            border: 2px dashed #b7c5d8; border-radius: 12px;
+            background: #f8faff; text-align: center; cursor: pointer;
+            transition: border-color .2s, background-color .2s;
+        }
+        .setting-upload-box:hover, .setting-upload-box:focus-within,
+        .setting-upload-box.is-dragging { border-color: #4154f1; background: #eef1ff; }
+        .setting-upload-box:focus-within { outline: 2px solid #4154f1; outline-offset: 3px; }
+        .setting-upload-box > .bi { font-size: 40px; color: #4154f1; }
+        .setting-upload-box input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .setting-upload-filename { max-width: 100%; overflow-wrap: anywhere; color: #6c757d; font-size: 12px; }
+    </style>
     <section class="section dashboard">
         
-        <div class="row align-items-stretch">
+        <div class="row align-items-stretch setting-general-layout">
             <div class="col-md-6">
                 <form action="javascript:void(0);" id="ProsesSettingGeneral">
                     <div class="card h-100">
@@ -172,10 +192,14 @@
                             <hr>
                             <div class="row mb-2">
                                 <div class="col-12">
-                                    <label for="favicon">
-                                        <small>File Favicon</small>
+                                    <label for="favicon" class="setting-upload-box" data-extensions="png,jpg,jpeg,webp,ico,svg">
+                                        <i class="bi bi-cloud-arrow-up" aria-hidden="true"></i>
+                                        <strong>File Favicon</strong>
+                                        <span class="small">Tarik file ke sini atau klik untuk memilih</span>
+                                        <span class="small text-muted">PNG, JPG, WEBP, ICO, SVG · Maks. 2 MB</span>
+                                        <span class="setting-upload-filename" aria-live="polite">Belum ada file dipilih</span>
+                                        <input type="file" name="favicon" id="favicon" accept=".png,.jpg,.jpeg,.webp,.ico,.svg">
                                     </label>
-                                    <input type="file" name="favicon" id="favicon" class="form-control">
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -216,10 +240,14 @@
                             <hr>
                             <div class="row mb-2">
                                 <div class="col-12">
-                                    <label for="logo">
-                                        <small>File Logo</small>
+                                    <label for="logo" class="setting-upload-box" data-extensions="png,jpg,jpeg,webp">
+                                        <i class="bi bi-image" aria-hidden="true"></i>
+                                        <strong>File Logo</strong>
+                                        <span class="small">Tarik file ke sini atau klik untuk memilih</span>
+                                        <span class="small text-muted">PNG, JPG, WEBP · Maks. 2 MB</span>
+                                        <span class="setting-upload-filename" aria-live="polite">Belum ada file dipilih</span>
+                                        <input type="file" name="logo" id="logo" accept=".png,.jpg,.jpeg,.webp">
                                     </label>
-                                    <input type="file" name="logo" id="logo" class="form-control">
                                 </div>
                             </div>
                             <div class="row mb-2">

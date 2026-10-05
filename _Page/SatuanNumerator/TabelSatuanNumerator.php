@@ -9,7 +9,7 @@
     //Validasi Akses
     if(empty($SessionIdAkses)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="5" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
@@ -72,7 +72,7 @@
         $JmlHalaman = ceil($jml_data/$batas); 
         if(empty($jml_data)){
             echo '
-                <tr>
+                <tr class="table-empty">
                     <td colspan="5" class="text-center">
                         <small class="text-danger">Tidak Ada Data Yang Ditampilkan!</small>
                     </td>
@@ -103,15 +103,15 @@
                 // Tampilkan Data
                 echo '
                     <tr>
-                        <td class="text-center"><small>'.$no.'</small></td>
-                        <td><small>'.$unit.'</small></td>
-                        <td><small>'.$code_numerator.'</small></td>
-                        <td>
+                        <td class="table-number"><small>'.$no.'</small></td>
+                        <td class="table-title"><small>'.$unit.'</small></td>
+                        <td data-label="Code"><small>'.$code_numerator.'</small></td>
+                        <td data-label="System">
                             <small>
                                 <a href="'.$system_numerator.'" target="_blank" class="text text-decoration-underline">'.$system_numerator.'</a>
                             </small>
                         </td>
-                        <td class="text-center">
+                        <td class="table-action">
                             <button type="button" class="btn btn-sm btn-secondary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
                             </button>

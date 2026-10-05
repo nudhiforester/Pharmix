@@ -15,7 +15,7 @@
     
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card card-data card-table">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12 text-end">
@@ -34,8 +34,8 @@
                 <div class="card-body">
                     <div class="row mt-3 mb-3">
                         <div class="col-12">
-                            <div class="table table-responsive mb-3 mt-3">
-                                <table class="table table-striped table-hover">
+                            <div class="table-load-container mt-3 mb-3">
+                                <table class="table table-hover table-responsive-card" id="TablePembayaran">
                                     <thead>
                                         <tr>
                                             <th><b>No</b></th>
@@ -49,7 +49,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tabel_pembayaran">
-                                        <tr>
+                                        <tr class="table-empty">
                                             <td colspan="8" class="text-center">
                                                 <small class="text-muted">No Data</small>
                                             </td>

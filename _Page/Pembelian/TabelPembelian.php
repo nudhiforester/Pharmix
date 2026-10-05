@@ -8,7 +8,7 @@
     $page=1;
     if(empty($SessionIdAkses)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="8" class="text-center text-danger">
                     Sesi Akses Sudah Berakhir! Silahkan Login Ulang
                 </td>
@@ -68,7 +68,7 @@
         }
         if(empty($jml_data)){
             echo '
-                <tr>
+                <tr class="table-empty">
                     <td colspan="8" class="text-center text-danger">
                         Tidak Ada Data Yang Ditampilkan.
                     </td>
@@ -136,22 +136,22 @@
 
                 echo '
                     <tr>
-                        <td><small>'.$no.'</small></td>
-                        <td>
+                        <td class="table-number"><small>'.$no.'</small></td>
+                        <td class="table-title">
                             <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_transaksi_jual_beli.'">
                                 <small>'.$id_transaksi_jual_beli.'</small>
                             </a>
                         </td>
-                        <td><small>'.$TanggalTransaksi.'</small></td>
-                        <td><small>'.$label_kategori.'</small></td>
-                        <td>
+                        <td data-label="Tanggal"><small>'.$TanggalTransaksi.'</small></td>
+                        <td data-label="Kategori"><small>'.$label_kategori.'</small></td>
+                        <td data-label="Supplier">
                             <a href="javascript:void(0);" class="text-info" data-bs-toggle="modal" data-bs-target="#ModalListSupplierEdit" data-id="'.$id_transaksi_jual_beli.'" data-mode="List">
                                 <small class="text text-info">'.$nama_supplier.'</small>
                             </a>
                         </td>
-                        <td><small>'.$total_rp.'</small></td>
-                        <td><small>'.$label_status.'</small></td>
-                        <td>
+                        <td data-label="Jumlah"><small>'.$total_rp.'</small></td>
+                        <td data-label="Status"><small>'.$label_status.'</small></td>
+                        <td class="table-action">
                             <button type="button" class="btn btn-sm btn-floating btn-secondary" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
                             </button>

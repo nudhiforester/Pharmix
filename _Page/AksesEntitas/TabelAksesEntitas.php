@@ -11,7 +11,7 @@
     // Validasi Sesi Akses
     if(empty($SessionIdAkses)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="6" class="text-center text-danger">
                     Sesi Akses Sudah Berakhir! Silahkan Login Ulang
                 </td>
@@ -97,7 +97,7 @@
     // Jika Data Tidak Ada
     if(empty($jml_data)){
         echo '
-            <tr>
+            <tr class="table-empty">
                 <td colspan="6" class="text-center text-danger">
                     Tidak Ada Data Yang Ditampilkan.
                 </td>
@@ -135,16 +135,16 @@
         // Tampilkan Baris Sata
         echo '
             <tr>
-                <td align="center"><small>'.$no.'</small></td>
-                <td align="left">
+                <td class="table-number"><small>'.$no.'</small></td>
+                <td class="table-title">
                     <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetailEntitias" data-id="'.$uuid_akses_entitas.'">
                         <small>'.$akses.'</small>
                     </a>
                 </td>
-                <td align="left"><small class="text-muted">'.$keterangan.'</small></td>
-                <td align="left"><small class="text-muted">'.$JumlahPengguna.' User</small></td>
-                <td align="left"><small class="text-muted">'.$JumlahRole.' Record</small></td>
-                <td align="center">
+                <td data-label="Keterangan"><small class="text-muted">'.$keterangan.'</small></td>
+                <td data-label="Pengguna"><small class="text-muted">'.$JumlahPengguna.' User</small></td>
+                <td data-label="Role"><small class="text-muted">'.$JumlahRole.' Record</small></td>
+                <td class="table-action">
                     <a class="btn btn-sm btn-secondary btn-floating" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical"></i>
                     </a>

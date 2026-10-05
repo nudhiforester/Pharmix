@@ -36,7 +36,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card card-data card-table">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-12 text-end">
@@ -52,35 +52,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row mt-3 mb-3">
-                            <div class="col-12">
-                                <div class="tabel table-responsive">
-                                    <table class="table table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th><b>No</b></th>
-                                                <th><b>Kode</b></th>
-                                                <th><b>Tanggal</b></th>
-                                                <th><b>Kategori</b></th>
-                                                <th><b>Supplier</b></th>
-                                                <th><b>Jumlah</b></th>
-                                                <th><b>Status</b></th>
-                                                <th><b>Opsi</b></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="TabelPembelian">
-                                            <!-- Data Barang Akan Ditampilkan Disini -->
-                                            <tr>
-                                                <td colspan="7" class="text-center text-danger">
-                                                    Tidak Ada Data yang Ditampilkan
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="table-load-container mt-3 mb-3">
+                        <table class="table table-hover table-responsive-card" id="TablePembelian">
+                            <thead>
+                                <tr>
+                                    <th><b>No</b></th>
+                                    <th><b>Kode</b></th>
+                                    <th><b>Tanggal</b></th>
+                                    <th><b>Kategori</b></th>
+                                    <th><b>Supplier</b></th>
+                                    <th><b>Jumlah</b></th>
+                                    <th><b>Status</b></th>
+                                    <th><b>Opsi</b></th>
+                                </tr>
+                            </thead>
+                            <tbody id="TabelPembelian">
+                                <!-- Data Barang Akan Ditampilkan Disini -->
+                                <tr class="table-empty">
+                                    <td colspan="8" class="text-center text-danger">
+                                        Tidak Ada Data yang Ditampilkan
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="card-footer">
                         <div class="row">
