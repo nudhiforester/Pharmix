@@ -1,10 +1,7 @@
-<div class="card">
+<div class="card card-data card-table">
     <div class="card-header">
         <div class="row">
-            <div class="col-6">
-                <b class="card-title"># Dataset Log</b>
-            </div>
-            <div class="col-6 text-end">
+            <div class="col-12 text-end">
                 <button class="btn btn-secondary btn-md btn-floating" type="button" data-bs-toggle="modal" data-bs-target="#ModalFilterAktivitas">
                     <i class="bi bi-search"></i>
                 </button>
@@ -14,9 +11,9 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="table-load-container mt-3">
         <div class="table table-responsive">
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped table-responsive-card">
                 <thead>
                     <tr>
                         <th><b>No</b></th>

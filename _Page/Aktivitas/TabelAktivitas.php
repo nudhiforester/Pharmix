@@ -373,9 +373,9 @@
             if ($datetime !== '') {
                 $datetime = date('d/m/Y H:i:s', strtotime($datetime));
             }
-            $html .= '<tr><td><small class="text-muted">' . $no . '</small></td>';
-            foreach ([$nama, $data['kategori_log'], $data['deskripsi_log'], $datetime] as $value) {
-                $html .= '<td><small class="text-muted">'
+            $html .= '<tr><td class="table-number"><small class="text-muted">' . $no . '</small></td>';
+            foreach ([$nama, $data['kategori_log'], $data['deskripsi_log'], $datetime] as $index => $value) {
+                $html .= ($index === 0 ? '<td class="table-title">' : '<td>') . '<small class="text-muted">'
                     . htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
                     . '</small></td>';
             }
