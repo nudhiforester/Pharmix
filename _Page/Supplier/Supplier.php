@@ -1,15 +1,20 @@
 <?php
-    if(empty($_GET['Sub'])){
-        include "_Page/Supplier/SupplierHome.php";
+    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAkses,'EPq0XQtcUYtGkvYVqHg');
+    if($IjinAksesSaya!=="Ada"){
+        include "_Page/Error/NoAccess.php";
     }else{
-        $Sub=$_GET['Sub'];
-        if($Sub=="DetailSupplier"){
-            include "_Page/Supplier/DetailSupplier.php";
+        if(empty($_GET['Sub'])){
+            include "_Page/Supplier/SupplierHome.php";
         }else{
-            if($Sub=="Import"){
-                include "_Page/Supplier/ImportSupplier.php";
+            $Sub=$_GET['Sub'];
+            if($Sub=="DetailSupplier"){
+                include "_Page/Supplier/DetailSupplier.php";
             }else{
-                include "_Page/Supplier/SupplierHome.php";
+                if($Sub=="Import"){
+                    include "_Page/Supplier/ImportSupplier.php";
+                }else{
+                    include "_Page/Supplier/SupplierHome.php";
+                }
             }
         }
     }

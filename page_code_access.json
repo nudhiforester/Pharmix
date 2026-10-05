@@ -1,0 +1,294 @@
+ [
+    {
+        "page_category": "Index Obat",
+        "page_member": [
+            {
+                "page_code"       : "WbtmIx8OxP90BbsMd0m",
+                "page_name"       : "Index Obat Dan Alkes",
+                "page_description": "Kelola index obat dan alkes sesuai referensi master sarana index obat dan alkes",
+                "page_url"        : "index.php?Page=Medication"
+            }
+        ]
+    },
+    {
+        "page_category": "Pasien",
+        "page_member": [
+            {
+                "page_code"       : "m1AtKvQmM7eKt7kBoVa",
+                "page_name"       : "Pasien",
+                "page_description": "Kelola data pasien",
+                "page_url"        : "index.php?Page=Pasien"
+            }
+        ]
+    },
+    {
+        "page_category": "Kunjungan",
+        "page_member": [
+            {
+                "page_code"       : "oWpF1xPn8dLgRi8hRJx",
+                "page_name"       : "Kunjungan",
+                "page_description": "Kelola data kunjungan pasien",
+                "page_url"        : "index.php?Page=Kunjungan"
+            }
+        ]
+    },
+    {
+        "page_category": "Resep",
+        "page_member": [
+            {
+                "page_code"       : "kElsUUFAQ6rCScZuAiK",
+                "page_name"       : "Resep",
+                "page_description": "Kelola data resep pasien",
+                "page_url"        : "index.php?Page=Resep"
+            }
+        ]
+    },
+    {
+        "page_category": "Supplier",
+        "page_member": [
+            {
+                "page_code"       : "EPq0XQtcUYtGkvYVqHg",
+                "page_name"       : "Supplier",
+                "page_description": "Kelola data supplier",
+                "page_url"        : "index.php?Page=Supplier"
+            }
+        ]
+    },
+    {
+        "page_category": "Inventaris",
+        "page_member": [
+            {
+                "page_code"       : "sPkDxRYJPn1A8K24ki2",
+                "page_name"       : "Barang",
+                "page_description": "Kelola data barang inventaris",
+                "page_url"        : "index.php?Page=Barang"
+            },
+            {
+                "page_code"       : "YyU3kA2xi9HqU1EMuTm",
+                "page_name"       : "Barang Expired",
+                "page_description": "Kelola data barang inventaris yang sudah expired",
+                "page_url"        : "index.php?Page=BarangExpired"
+            },
+            {
+                "page_code"       : "PLj70Mfj5dhUUvjZqnd",
+                "page_name"       : "Stock Opname",
+                "page_description": "Kelola data stock opname barang inventaris",
+                "page_url"        : "index.php?Page=StockOpename"
+            }
+        ]
+    },
+    {
+        "page_category": "Transaksi",
+        "page_member": [
+            {
+                "page_code"       : "vC4W81sLCdsIGabUEMi",
+                "page_name"       : "Jenis/Kategori Transaksi",
+                "page_description": "Kelola data jenis/kategori transaksi",
+                "page_url"        : "index.php?Page=JenisTransaksi"
+            },
+            {
+                "page_code"       : "RZufXfHVLW9f0EsjYSB",
+                "page_name"       : "Transaksi Operasional",
+                "page_description": "Kelola data transaksi operasional",
+                "page_url"        : "index.php?Page=Transaksi"
+            },
+            {
+                "page_code"       : "AQKs9kSv0Bph4ycGNUj",
+                "page_name"       : "Kasir Penjualan",
+                "page_description": "Kelola data kasir penjualan",
+                "page_url"        : "index.php?Page=Penjualan"
+            },
+            {
+                "page_code"       : "LTBuBzSi7njYRiLe6la",
+                "page_name"       : "Kasir Pembelian",
+                "page_description": "Kelola data kasir pembelian",
+                "page_url"        : "index.php?Page=Pembelian"
+            }
+        ]
+    },
+    {
+        "page_category": "Keuangan",
+        "page_member": [
+            {
+                "page_code"       : "TiBoTS2YqPyx6IhtTKA",
+                "page_name"       : "Akun Perkiraan",
+                "page_description": "Kelola data akun perkiraan",
+                "page_url"        : "index.php?Page=AkunPerkiraan"
+            },
+            {
+                "page_code"       : "gw5VTLLVsrfg63nfEWX",
+                "page_name"       : "Utang Piutang",
+                "page_description": "Kelola utang piutang",
+                "page_url"        : "index.php?Page=UtangPiutang"
+            },
+            {
+                "page_code"       : "rq4ij9ADzOh6AebRKTm",
+                "page_name"       : "Pembayaran",
+                "page_description": "Kelola pembayaran pelanggan",
+                "page_url"        : "index.php?Page=Pembayaran"
+            }
+        ]
+    },
+    {
+        "page_category": "Laporan",
+        "page_member": [
+            {
+                "page_code"       : "VTouzOD2eM57Onno1Ql",
+                "page_name"       : "Jurnal",
+                "page_description": "Kelola jurnal keuangan",
+                "page_url"        : "index.php?Page=Jurnal"
+            },
+            {
+                "page_code"       : "n6quFiiDojCgimfkCT7",
+                "page_name"       : "Buku Besar",
+                "page_description": "Lihat Laporan Buku Besar Keuangan",
+                "page_url"        : "index.php?Page=BukuBesar"
+            },
+            {
+                "page_code"       : "incMmh5yyCmCs4IwCYz",
+                "page_name"       : "Neraca Saldo",
+                "page_description": "Lihat Laporan Neraca Saldo",
+                "page_url"        : "index.php?Page=NeracaSaldo"
+            },
+            {
+                "page_code"       : "N6O5Qc64hOEhPQukZSh",
+                "page_name"       : "Laba Rugi",
+                "page_description": "Lihat Laporan Laba Rugi",
+                "page_url"        : "index.php?Page=LabaRugi"
+            },
+            {
+                "page_code"       : "w8xdO79t7kdEeyBSxLJ",
+                "page_name"       : "Rekap Transaksi",
+                "page_description": "Lihat Laporan Rekapitulasi Transaksi Operasional",
+                "page_url"        : "index.php?Page=RekapTransaksi"
+            },
+            {
+                "page_code"       : "ungKMcHQ0OvFgMhS1y8",
+                "page_name"       : "Rekap Jual Beli",
+                "page_description": "Lihat Laporan Rekapitulasi Jual Beli",
+                "page_url"        : "index.php?Page=RekapJualBeli"
+            }
+        ]
+    },
+    {
+        "page_category": "Pengaturan",
+        "page_member": [
+            {
+                "page_code"       : "qLECdqLVgBMjV0BXHUC",
+                "page_name"       : "Pengaturan Umum",
+                "page_description": "Kelola Pengaturan Aplikasi",
+                "page_url"        : "index.php?Page=SettingGeneral"
+            },
+            {
+                "page_code"       : "eQhEWIf1fV6xwMNr8J9",
+                "page_name"       : "Auto Jurnal",
+                "page_description": "Atur komponen saldo normal jurnal transaksi pada setiap mode transaksi",
+                "page_url"        : "index.php?Page=AutoJurnal"
+            },
+            {
+                "page_code"       : "rfLn8WEkAqzC1gu5z45",
+                "page_name"       : "Email Gateway",
+                "page_description": "Atur kredensial email gateway",
+                "page_url"        : "index.php?Page=SettingEmailGateway"
+            },
+            {
+                "page_code"       : "io72fRzU0o0c9pf4ICe",
+                "page_name"       : "Setting SATUSEHAT",
+                "page_description": "Atur kredensial koneksi SATUSEHAT",
+                "page_url"        : "index.php?Page=SettingSatuSehat"
+            }
+        ]
+    },
+    {
+        "page_category": "Aksesibilitas",
+        "page_member": [
+            {
+                "page_code"       : "rA8MRFArw1qPeVySjAC",
+                "page_name"       : "Kode Fitur Aplikasi",
+                "page_description": "Kelola kode fitur aplikasi",
+                "page_url"        : "index.php?Page=AksesFitur"
+            },
+            {
+                "page_code"       : "8KbdfArJ7UmoX916kO7",
+                "page_name"       : "Entitas Pengguna",
+                "page_description": "Kelola Entitas Pengguna",
+                "page_url"        : "index.php?Page=AksesEntitas"
+            },
+            {
+                "page_code"       : "FGPgsQeVDKPGoQPNGJH",
+                "page_name"       : "Akses",
+                "page_description": "Kelola Akses Pengguna",
+                "page_url"        : "index.php?Page=Akses"
+            }
+        ]
+    },
+    {
+        "page_category": "Referensi",
+        "page_member": [
+            {
+                "page_code"       : "SqyaSLYXa8QKfYDHlp5",
+                "page_name"       : "Route Obat",
+                "page_description": "Kelola Referensi Route Obat",
+                "page_url"        : "index.php?Page=Route"
+            },
+            {
+                "page_code"       : "4pvO0IB7VZHntNAA0mL",
+                "page_name"       : "Sediaan",
+                "page_description": "Kelola Referensi Sediaan",
+                "page_url"        : "index.php?Page=Sediaan"
+            },
+            {
+                "page_code"       : "W9OzcmQNFddGn8Sjjij",
+                "page_name"       : "Satuan Dosis",
+                "page_description": "Kelola Referensi Satuan Dosis",
+                "page_url"        : "index.php?Page=SatuanDosis"
+            },
+            {
+                "page_code"       : "TJjYf2Q5X1rRWkeTq7x",
+                "page_name"       : "Denominator",
+                "page_description": "Kelola Satuan Denominator",
+                "page_url"        : "index.php?Page=Denominator"
+            },
+            {
+                "page_code"       : "kzdf7lZVWpSIHvvz3lm",
+                "page_name"       : "Numerator",
+                "page_description": "Kelola Satuan Numerator",
+                "page_url"        : "index.php?Page=Numerator"
+            },
+            {
+                "page_code"       : "JEatxbpNETmuUtqzh4P",
+                "page_name"       : "Poliklinik",
+                "page_description": "Kelola Referensi Poliklinik",
+                "page_url"        : "index.php?Page=Poliklinik"
+            },
+            {
+                "page_code"       : "6X1MRZRvlEf54ygQv0n",
+                "page_name"       : "Nakes",
+                "page_description": "Kelola Referensi Nakes",
+                "page_url"        : "index.php?Page=Nakes"
+            }
+        ]
+    },
+    {
+        "page_category": "Aktivitas",
+        "page_member": [
+            {
+                "page_code"       : "w4BCAy6VPuZLhkgUQEU",
+                "page_name"       : "Log Aktivitas",
+                "page_description": "Pantau Log Aktivitas Pengguna",
+                "page_url"        : "index.php?Page=Aktivitas"
+            }
+        ]
+    },
+    {
+        "page_category": "Dokumentasi",
+        "page_member": [
+            {
+                "page_code": "5MH1cfu7LzOpalmhbT2",
+                "page_name": "Dokumentasi",
+                "page_description": "Kelola Dokumentasi Cara Penggunaan Aplikasi",
+                "page_url": "index.php?Page=Dokumentasi"
+            }
+        ]
+    }
+]

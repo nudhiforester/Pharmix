@@ -335,7 +335,7 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Aktivitas"){echo "active";}else{echo "collapsed";} ?>" href="index.php?Page=Aktivitas&Sub=AktivitasUmum">
+            <a class="nav-link <?php if($PageMenu=="Aktivitas"){echo "active";}else{echo "collapsed";} ?>" href="index.php?Page=Aktivitas">
                 <i class="bi bi-circle"></i>
                 <span>Log Sistem</span>
             </a>
