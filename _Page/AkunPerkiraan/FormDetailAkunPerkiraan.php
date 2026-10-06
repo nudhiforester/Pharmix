@@ -1,88 +1,108 @@
 <?php
-    //Koneksi
-    include "../../_Config/Connection.php";
-    include "../../_Config/GlobalFunction.php";
-    include "../../_Config/Session.php";
-    date_default_timezone_set('Asia/Jakarta');
-    if(empty($SessionIdAkses)){
-        echo '<div class="row mb-3">';
-        echo '  <div class="col col-md-12 text-center">';
-        echo '      <code>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</code>';
-        echo '  </div>';
-        echo '</div>';
-    }else{
-        //Tangkap id_kelas
-        if(empty($_POST['id_perkiraan'])){
-            echo '<div class="row">';
-            echo '  <div class="col-md-12 mb-3 text-danger text-center">';
-            echo '      Mohon Maaf!! ID Akun Perkiraan Tidak Dapat didefinisikan.<br>';
-            echo '      Hubungi admin aplikasi untuk permasalahn berikut ini.<br>';
-            echo '  </div>';
-            echo '</div>';
-        }else{
-            $id_perkiraan=$_POST['id_perkiraan'];
-            $id_perkiraan=validateAndSanitizeInput($id_perkiraan);
-            $id_perkiraan=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'id_perkiraan');
-            if(empty($id_perkiraan)){
-                echo '<div class="row mb-3">';
-                echo '  <div class="col col-md-12 text-center">';
-                echo '      <code>ID Akun Perkiraan Tidak Ditemukan Pada Database!</code>';
-                echo '  </div>';
-                echo '</div>';
-            }else{
-                $kode=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'kode');
-                $nama=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'nama');
-                $level=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'level');
-                $saldo_normal=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'saldo_normal');
+// Muat dependensi untuk respons HTML modal detail.
+require_once __DIR__ . '/../../_Config/Connection.php';
+require_once __DIR__ . '/../../_Config/GlobalFunction.php';
+require_once __DIR__ . '/../../_Config/Session.php';
+
+// Tampilkan pesan singkat jika detail tidak dapat dimuat.
+function DetailError($message)
+{
+    echo '<div class="alert alert-danger text-center"><small>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</small></div>';
+    exit;
+}
+if (empty($SessionIdAkses)) {
+    DetailError('Sesi Akses Sudah Berakhir. Silahkan Login Ulang!');
+}
+if (empty($_POST['id_perkiraan']) || !is_scalar($_POST['id_perkiraan'])) {
+    DetailError('ID Akun Perkiraan Tidak Boleh Kosong.');
+}
+$idPerkiraan = validateAndSanitizeInput((string) $_POST['id_perkiraan']);
+
+try {
+    // Baca detail akun dan kode hierarki dalam satu query berparameter.
+    $stmt = mysqli_prepare($Conn, 'SELECT * FROM akun_perkiraan WHERE id_perkiraan = ? LIMIT 1');
+    if (!$stmt) { throw new Exception('Gagal menyiapkan query.'); }
+    mysqli_stmt_bind_param($stmt, 's', $idPerkiraan);
+    if (!mysqli_stmt_execute($stmt)) { throw new Exception('Gagal membaca akun.'); }
+    $akun = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+    mysqli_stmt_close($stmt);
+    if (!$akun) { DetailError('ID Akun Perkiraan Tidak Ditemukan Pada Database!'); }
+
+    // Nama kolom hierarki hanya dibentuk dari level bilangan bulat positif.
+    $level = filter_var($akun['level'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if ($level === false) { throw new Exception('Level akun tidak valid.'); }
+    $kolomKd = 'kd' . $level;
+    $atasan = [];
+    $turunan = [];
+
+    // Ambil seluruh akun di atasnya sekaligus berdasarkan kode kd yang tersimpan.
+    $kodeAtasan = [];
+    for ($i = 1; $i < $level; $i++) {
+        if (!empty($akun['kd' . $i])) { $kodeAtasan[] = $akun['kd' . $i]; }
+    }
+    if ($kodeAtasan) {
+        $placeholder = implode(', ', array_fill(0, count($kodeAtasan), '?'));
+        $stmt = mysqli_prepare($Conn, "SELECT kode, nama, level FROM akun_perkiraan WHERE kode IN ($placeholder) ORDER BY level ASC");
+        if (!$stmt) { throw new Exception('Gagal menyiapkan query atasan.'); }
+        mysqli_stmt_bind_param($stmt, str_repeat('s', count($kodeAtasan)), ...$kodeAtasan);
+        if (!mysqli_stmt_execute($stmt)) { throw new Exception('Gagal membaca atasan.'); }
+        $result = mysqli_stmt_get_result($stmt);
+        while ($row = mysqli_fetch_assoc($result)) { $atasan[] = $row; }
+        mysqli_stmt_close($stmt);
+    }
+
+    // Baca seluruh turunan pada cabang akun ini, tanpa memasukkan akun itu sendiri.
+    $stmt = mysqli_prepare($Conn, "SELECT kode, nama, level, saldo_normal FROM akun_perkiraan WHERE `$kolomKd` = ? AND level > ?");
+    if (!$stmt) { throw new Exception('Gagal menyiapkan query turunan.'); }
+    mysqli_stmt_bind_param($stmt, 'si', $akun['kode'], $level);
+    if (!mysqli_stmt_execute($stmt)) { throw new Exception('Gagal membaca turunan.'); }
+    $result = mysqli_stmt_get_result($stmt);
+    while ($row = mysqli_fetch_assoc($result)) { $turunan[] = $row; }
+    mysqli_stmt_close($stmt);
+
+    // Urutkan kode secara alami agar 1.2 tampil sebelum 1.10.
+    usort($turunan, function ($a, $b) { return strnatcmp($a['kode'], $b['kode']); });
+} catch (Throwable $e) {
+    DetailError('Terjadi kesalahan pada saat membaca detail akun perkiraan.');
+}
+
+// Escape seluruh nilai database sebelum ditampilkan di modal.
+$escape = function ($value) { return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'); };
+$parameter = [
+    'Kode Akun' => $akun['kode'],
+    'Nama Akun' => $akun['nama'],
+    'Level' => $level,
+    'Saldo Normal' => $akun['saldo_normal']
+];
 ?>
-                <div class="row mb-3">
-                    <div class="col-md-4">Kode Akun</div>
-                    <div class="col-md-8">
-                        <small class="credit text-grayish"><?php echo $kode; ?></small>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">Nama Akun</div>
-                    <div class="col-md-8">
-                        <small class="credit text-grayish"><?php echo $nama; ?></small>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">Level</div>
-                    <div class="col-md-8">
-                        <small class="credit text-grayish"><?php echo $level; ?></small>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">Saldo Normal</div>
-                    <div class="col-md-8">
-                        <small class="credit text-grayish"><?php echo $saldo_normal; ?></small>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">Akun Di Atasnya</div>
-                    <div class="col-md-8">
-                        <small class="credit text-grayish">
-                            <?php 
-                                if($level=="1"){
-                                    echo '-';
-                                }else{
-                                    $level_di_atas=$level-1;
-                                    //Looping Berdasarkan Jumlah Level Di Atasnya
-                                    for ( $i="1"; $i<="$level_di_atas"; $i++ ){
-                                        $KolomSaya="kd$i";
-                                        $kode_atasan=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,$KolomSaya);
-                                        $nama_atasan=GetDetailData($Conn,'akun_perkiraan','kode',$kode_atasan,'nama');
-                                        echo ''.$kode_atasan.'. '.$nama_atasan.'<br>';
-                                    }
-                                    echo '<span class="text-dark">'.$kode.'. '.$nama.'</span>';
-                                }
-                            ?>
-                        </small>
-                    </div>
-                </div>
-<?php 
-            } 
-        } 
-    } 
-?>
+<!-- Kolom label, titik dua, dan nilai tetap sejajar, termasuk saat nilai membungkus. -->
+<div class="mb-3" style="display: grid; grid-template-columns: minmax(0, 2fr) auto minmax(0, 3fr); gap: .75rem; align-items: start;">
+    <?php foreach ($parameter as $label => $value): ?>
+        <small><?= $escape($label) ?></small>
+        <small>:</small>
+        <small class="text-break"><?= $escape($value) ?></small>
+    <?php endforeach; ?>
+    <small>Akun Di Atasnya</small>
+    <small>:</small>
+    <div>
+        <?php if (!$atasan): ?>
+            <small>-</small>
+        <?php else: ?>
+            <?php foreach ($atasan as $item): ?>
+                <small class="d-block text-break"><?= $escape($item['kode']) ?>. <?= $escape($item['nama']) ?></small>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</div>
+<?php if ($turunan): ?>
+    <!-- Tampilkan anggota di seluruh level bawah dalam list group. -->
+    <p class="mb-2"><small class="fw-bold">Akun Di Bawahnya (<?= count($turunan) ?>)</small></p>
+    <ul class="list-group">
+        <?php foreach ($turunan as $item): ?>
+            <li class="list-group-item">
+                <small class="d-block text-break fw-semibold"><?= $escape($item['kode']) ?>. <?= $escape($item['nama']) ?></small>
+                <small class="text-muted">Level <?= $escape($item['level']) ?> &middot; Saldo Normal: <?= $escape($item['saldo_normal']) ?></small>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

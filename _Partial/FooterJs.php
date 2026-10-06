@@ -14,11 +14,11 @@
 <!-- Toast -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="appToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <i id="appToastIcon" class="bi"></i> <strong id="appToastTitle" class="me-auto"></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div class="toast-header text-white">
+            <i id="appToastIcon" class="text-white bi"></i> <strong id="appToastTitle" class="me-auto"></strong>
+            <button type="button" class="btn-close text-white" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div id="appToastMessage" class="toast-body"></div>
+        <div id="appToastMessage" class="toast-body text-white"></div>
     </div>
 </div>
 

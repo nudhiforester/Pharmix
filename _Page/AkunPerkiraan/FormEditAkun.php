@@ -1,119 +1,102 @@
 <?php
-    //Koneksi
-    include "../../_Config/Connection.php";
-    include "../../_Config/GlobalFunction.php";
-    include "../../_Config/Session.php";
-    date_default_timezone_set('Asia/Jakarta');
-    if(empty($SessionIdAkses)){
-        echo '<div class="row mb-3">';
-        echo '  <div class="col col-md-12 text-center">';
-        echo '      <code>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</code>';
-        echo '  </div>';
-        echo '</div>';
-    }else{
-        //Tangkap id_kelas
-        if(empty($_POST['id_perkiraan'])){
-            echo '<div class="row">';
-            echo '  <div class="col-md-12 mb-3 text-danger text-center">';
-            echo '      Mohon Maaf!! ID Akun Perkiraan Tidak Dapat didefinisikan.<br>';
-            echo '      Hubungi admin aplikasi untuk permasalahn berikut ini.<br>';
-            echo '  </div>';
-            echo '</div>';
-        }else{
-            $id_perkiraan=$_POST['id_perkiraan'];
-            $id_perkiraan=validateAndSanitizeInput($id_perkiraan);
-            $id_perkiraan=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'id_perkiraan');
-            if(empty($id_perkiraan)){
-                echo '<div class="row mb-3">';
-                echo '  <div class="col col-md-12 text-center">';
-                echo '      <code>ID Akun Perkiraan Tidak Ditemukan Pada Database!</code>';
-                echo '  </div>';
-                echo '</div>';
-            }else{
-                $kode=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'kode');
-                $nama=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'nama');
-                $level=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'level');
-                $saldo_normal=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'saldo_normal');
-                //Mencari Kode Akun Di Atasnya
-                if($level=="1"){
-                    $KodeAtas="$kode";
-                    $lastPart =""; 
-                }else{
-                    $LevelAtas=$level-1;
-                    $KodeAtas=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'kd'.$LevelAtas.'');
-                    $parts = explode('.', $kode); // Memisahkan string menjadi array
-                    if(!empty(end($parts))){
-                        $lastPart = end($parts); 
-                    }else{
-                        $lastPart =""; 
-                    }
-                    
-                }
-                //Cek Punya Anak Akun Atau Tidak
-                $JumlahAnakAkun=mysqli_num_rows(mysqli_query($Conn, "SELECT * FROM akun_perkiraan WHERE level>'$level' AND kd$level='$kode'"));
+// Siapkan dependensi dan kontrak respons untuk pemuatan form edit.
+header('Content-Type: application/json; charset=utf-8');
+require_once __DIR__ . '/../../_Config/Connection.php';
+require_once __DIR__ . '/../../_Config/GlobalFunction.php';
+require_once __DIR__ . '/../../_Config/Session.php';
+
+function Response($status, $message, $html = '')
+{
+    echo json_encode(['status' => $status, 'message' => $message, 'html' => $html]);
+    exit;
+}
+
+// Validasi sesi dan sanitasi ID akun sebelum membaca database.
+if (empty($SessionIdAkses)) {
+    Response('error', 'Sesi Akses Sudah Berakhir. Silahkan Login Ulang!');
+}
+if (empty($_POST['id_perkiraan']) || !is_scalar($_POST['id_perkiraan'])) {
+    Response('error', 'ID Akun Perkiraan Tidak Boleh Kosong.');
+}
+$idPerkiraan = validateAndSanitizeInput((string) $_POST['id_perkiraan']);
+
+try {
+    // Ambil detail dan kode hierarki akun dalam satu query berparameter.
+    $stmt = mysqli_prepare($Conn, 'SELECT * FROM akun_perkiraan WHERE id_perkiraan = ? LIMIT 1');
+    if (!$stmt) { throw new Exception('Gagal menyiapkan query.'); }
+    mysqli_stmt_bind_param($stmt, 's', $idPerkiraan);
+    if (!mysqli_stmt_execute($stmt)) { throw new Exception('Gagal membaca akun.'); }
+    $akun = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+    mysqli_stmt_close($stmt);
+    if (!$akun) {
+        Response('error', 'ID Akun Perkiraan Tidak Ditemukan Pada Database!');
+    }
+
+    // Normalisasi level agar pemeriksaan level 1 konsisten.
+    $level = filter_var($akun['level'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if ($level === false) { throw new Exception('Level akun tidak valid.'); }
+    $kolomKd = 'kd' . $level;
+    $kodeInduk = $level === 1 ? '' : ($akun['kd' . ($level - 1)] ?? '') . '.';
+    if ($level > 1 && $kodeInduk === '.') { throw new Exception('Kode induk tidak valid.'); }
+    $kodeInput = $level === 1 ? $akun['kode'] : substr($akun['kode'], strlen($kodeInduk));
+
+    // Periksa keberadaan turunan tanpa membaca seluruh barisnya.
+    $stmt = mysqli_prepare($Conn, "SELECT id_perkiraan FROM akun_perkiraan WHERE `$kolomKd` = ? AND level > ? LIMIT 1");
+    if (!$stmt) { throw new Exception('Gagal menyiapkan query turunan.'); }
+    mysqli_stmt_bind_param($stmt, 'si', $akun['kode'], $level);
+    if (!mysqli_stmt_execute($stmt)) { throw new Exception('Gagal membaca turunan.'); }
+    $punyaAnak = (bool) mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+    mysqli_stmt_close($stmt);
+} catch (Throwable $e) {
+    Response('error', 'Terjadi kesalahan pada saat membaca data akun perkiraan.');
+}
+
+// Escape data database pada setiap atribut HTML.
+$escape = function ($value) {
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+};
+ob_start();
 ?>
-                <input type="hidden" name="id_perkiraan" value="<?php echo "$id_perkiraan"; ?>">
-                <div class="row">
-                    <div class="col-4">
-                        Level
-                    </div>
-                    <div class="col-8">
-                        <?php echo $level;?>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="kode">Kode Akun</label>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            <?php
-                                if($level!==1){
-                            ?>
-                                <input type="text" readonly name="kode_induk" id="kode_induk" class="form-control" value="<?php echo "$KodeAtas."; ?>" required>
-                                <input type="text" <?php if(!empty($JumlahAnakAkun)){echo "readonly";} ?> name="kode" id="kode" class="form-control" value="<?php echo "$lastPart"; ?>" required>
-                            <?php }else{ ?>
-                                <input type="text" <?php if(!empty($JumlahAnakAkun)){echo "readonly";} ?> name="kode" id="kode" class="form-control" value="<?php echo "$kode"; ?>" required>
-                            <?php } ?>
-                        </div>
-                        <?php if(!empty($JumlahAnakAkun)){echo '<code class="text text-grayish">Kode Akun Tidak Bisa Diubah Karena Memilikki Sub Akkun Dibawahnya</code>';} ?>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="nama">Nama Akun</label>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="text" name="nama" id="nama" class="form-control" value="<?php echo "$nama"; ?>"  required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="saldo_normal">Saldo Normal</label>
-                    </div>
-                    <div class="col-md-8">
-                        <?php
-                            if($level!=="1"){
-                        ?>
-                            <input type="text" readonly name="saldo_normal" id="saldo_normal" class="form-control" value="<?php echo "$saldo_normal"; ?>">
-                            <code class="text text-grayish">Saldo normal mengikuti tingkatan akun paling tinggi</code>
-                        <?php }else{ ?>
-                            <select name="saldo_normal" id="saldo_normal" class="form-control">
-                                <option <?php if($saldo_normal==""){echo "selected";} ?> value="">Pilih</option>
-                                <option <?php if($saldo_normal=="Debet"){echo "selected";} ?> value="Debet">Debet</option>
-                                <option <?php if($saldo_normal=="Kredit"){echo "selected";} ?> value="Kredit">Kredit</option>
-                            </select>
-                        <?php } ?>
-                        
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <small class="text-primary">Pastikan anda mengisi form akun perkiraan dengan benar!</small>
-                    </div>
-                </div>
-<?php 
-            } 
-        } 
-    } 
-?>
+<input type="hidden" name="id_perkiraan" value="<?= $escape($akun['id_perkiraan']) ?>">
+<div class="row mb-3">
+    <div class="col-md-4"><label for="level_edit">Level</label></div>
+    <div class="col-md-8"><input type="text" id="level_edit" class="form-control" value="<?= $level ?>" disabled></div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-4"><label for="kode_edit">Kode Akun</label></div>
+    <div class="col-md-8">
+        <div class="input-group">
+            <?php if ($level > 1): ?>
+                <input type="text" name="kode_induk" id="kode_induk_edit" class="form-control" value="<?= $escape($kodeInduk) ?>" readonly>
+            <?php endif; ?>
+            <!-- Kolom kode dikunci; hidden input tetap mengirim kode saat submit. -->
+            <input type="text" id="kode_edit" class="form-control" value="<?= $escape($kodeInput) ?>" disabled>
+            <input type="hidden" name="kode" value="<?= $escape($kodeInput) ?>">
+        </div>
+        <small class="text-muted">Kode akun ditetapkan otomatis dan tidak dapat diubah.</small>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-4"><label for="nama_edit">Nama Akun</label></div>
+    <div class="col-md-8"><input type="text" name="nama" id="nama_edit" class="form-control" value="<?= $escape($akun['nama']) ?>" required></div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-4"><label for="saldo_normal_edit">Saldo Normal</label></div>
+    <div class="col-md-8">
+        <?php if ($level === 1): ?>
+            <select name="saldo_normal" id="saldo_normal_edit" class="form-control" required>
+                <option value="">Pilih</option>
+                <option value="Debet" <?= $akun['saldo_normal'] === 'Debet' ? 'selected' : '' ?>>Debet</option>
+                <option value="Kredit" <?= $akun['saldo_normal'] === 'Kredit' ? 'selected' : '' ?>>Kredit</option>
+            </select>
+            <small class="text-muted">Perubahan saldo normal berlaku untuk seluruh akun turunannya.</small>
+        <?php else: ?>
+            <input type="text" name="saldo_normal" id="saldo_normal_edit" class="form-control" value="<?= $escape($akun['saldo_normal']) ?>" readonly>
+            <small class="text-muted">Saldo normal mengikuti akun level 1.</small>
+        <?php endif; ?>
+    </div>
+</div>
+<?php
+// Sertakan markup form hanya di dalam respons JSON.
+$html = ob_get_clean();
+Response('success', 'Form Edit Akun Berhasil Dimuat.', $html);

@@ -10,11 +10,15 @@
     date_default_timezone_set('Asia/Jakarta');
     //Cek Akses
     if(empty($SessionIdAkses)){
-        echo '<div class="row mb-3">';
-        echo '  <div class="col col-md-12 text-center">';
-        echo '      <code>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</code>';
-        echo '  </div>';
-        echo '</div>';
+        echo '
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger text-center">
+                        <small><b>Opss!</b> <br> Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</small>
+                    </div>
+                </div>
+            </div>
+        ';
     }else{
         $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM akun_perkiraan"));
         //Mencari Level maksimum
@@ -28,11 +32,15 @@
         }
         $level_akun_max=$level_akun_max;
         if(empty($jml_data)){
-            echo '<div class="row">';
-            echo '  <div class="col text-danger text-center">';
-            echo '      <span class="text-center">Belum Ada Akun Perkiraan</span>';
-            echo '  </div>';
-            echo '</div>';
+            echo '
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-danger text-center">
+                            <small><b>Opss!</b> Belum Ada Data Akun Perkiraan Yang Ditampilkan</small>
+                        </div>
+                    </div>
+                </div>
+            ';
         }else{
 ?>
     <div class="table-responsive">
@@ -61,12 +69,28 @@
                             IF(CHAR_LENGTH(kode) - CHAR_LENGTH(REPLACE(kode, '.', '')) >= 3,
                                 CAST(SUBSTRING_INDEX(kode, '.', -1) AS UNSIGNED), 0)
                     ");
-                    while ($data = mysqli_fetch_array($query)) {
+                    // Tentukan batas posisi per level dan per induk tanpa query tambahan.
+                    $semuaAkun = mysqli_fetch_all($query, MYSQLI_ASSOC);
+                    $kelompokAkun = [];
+                    $posisiAkun = [];
+                    foreach ($semuaAkun as $item) {
+                        $induk = (int) $item['level'] === 1 ? '' : ($item['kd' . ((int) $item['level'] - 1)] ?? '');
+                        $kelompokAkun[$item['level'] . ':' . $induk][] = $item;
+                    }
+                    foreach ($kelompokAkun as $kelompok) {
+                        usort($kelompok, function ($a, $b) { return strnatcmp($a['kode'], $b['kode']); });
+                        foreach ($kelompok as $index => $item) {
+                            $posisiAkun[$item['id_perkiraan']] = ['atas' => $index > 0, 'bawah' => $index < count($kelompok) - 1];
+                        }
+                    }
+                    foreach ($semuaAkun as $data) {
                         $id_perkiraan = $data['id_perkiraan'];
                         $kode_perkiraan = $data['kode'];
                         $nama_perkiraan = $data['nama'];
                         $level_perkiraan= $data['level'];
                         $saldo_normal= $data['saldo_normal'];
+                        // Nama akun membuka modal detail menggunakan handler yang sudah tersedia.
+                        $nama_perkiraan = '<a href="#ModalDetailAkunPerkiraan" class="text-primary" data-bs-toggle="modal" data-bs-target="#ModalDetailAkunPerkiraan" data-id="' . (int) $id_perkiraan . '">' . htmlspecialchars((string) $nama_perkiraan, ENT_QUOTES, 'UTF-8') . '</a>';
                         //WARNA TEXT
                         if($saldo_normal=='Kredit'){
                             $LabelSaldo="<span class='text-danger'>$saldo_normal</span>";
@@ -76,6 +100,8 @@
                         //Hitung Jurnal Yang Menggunakan Akun Ini
                         $JumlahJurnal=mysqli_num_rows(mysqli_query($Conn, "SELECT * FROM jurnal WHERE kode_perkiraan='$kode_perkiraan'"));
                         $JumlahJurnal = "" . number_format($JumlahJurnal,0,',','.');
+                        // Escape kode hanya untuk tampilan setelah query jurnal selesai.
+                        $kode_perkiraan = htmlspecialchars((string) $kode_perkiraan, ENT_QUOTES, 'UTF-8');
                 ?>
                         <tr>
                             <td align="center">
@@ -131,6 +157,17 @@
                                     <li class="dropdown-header text-start">
                                         <h6>Option</h6>
                                     </li>
+                                    <?php foreach (['atas' => 'Pindah ke atas', 'bawah' => 'Pindah ke bawah'] as $arah => $label): ?>
+                                        <li>
+                                            <?php if ($posisiAkun[$id_perkiraan][$arah]): ?>
+                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ModalPindahPosisi" data-id="<?= (int) $id_perkiraan ?>" data-arah="<?= $arah ?>" data-akun="<?= htmlspecialchars($data['kode'] . '. ' . $data['nama'], ENT_QUOTES, 'UTF-8') ?>">
+                                                    <i class="bi bi-arrow-<?= $arah === 'atas' ? 'up' : 'down' ?>"></i> <?= $label ?>
+                                                </button>
+                                            <?php else: ?>
+                                                <button type="button" class="dropdown-item disabled" disabled><i class="bi bi-arrow-<?= $arah === 'atas' ? 'up' : 'down' ?>"></i> <?= $label ?></button>
+                                            <?php endif; ?>
+                                        </li>
+                                    <?php endforeach; ?>
                                     <li>
                                         <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailAkunPerkiraan" data-id="<?php echo "$id_perkiraan"; ?>">
                                             <i class="bi bi-info-circle"></i> Detail

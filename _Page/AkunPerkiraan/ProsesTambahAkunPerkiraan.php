@@ -2,6 +2,9 @@
     //KONEKSI KE DATABASE
     date_default_timezone_set('Asia/Jakarta');
     include "../../_Config/Connection.php";
+
+    // Waktu Sekarang
+    $now = date('Y-m-d H:i:d');
     //Validasi Variebl yang ditangkap
     if(empty($_POST['kode'])){
         echo '<span class="text-danger">Kode Perkiraan Tidak Boleh Kosong.</span>';

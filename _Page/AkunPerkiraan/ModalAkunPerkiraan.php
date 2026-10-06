@@ -12,7 +12,10 @@
                             <label for="kode">Kode Akun</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="kode" id="kode" class="form-control" required>
+                            <!-- Kode tampilan dikunci; hidden input tetap dikirim oleh FormData. -->
+                            <input type="text" id="kode" class="form-control" inputmode="numeric" pattern="[0-9]+" disabled>
+                            <input type="hidden" name="kode" id="kode_utama_value">
+                            <small class="text-muted">Kode otomatis mengikuti nomor akun terbesar + 1.</small>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -37,11 +40,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <small class="text-primary">Pastikan anda mengisi form akun perkiraan dengan benar!</small>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
                             <div id="NotifikasiTambahAkunPerkiraanUtama">
                                 
                             </div>
@@ -49,10 +47,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded" id="ButtonTambahAkunPerkiraanUtama">
                         <i class="bi bi-save"></i> Simpan
                     </button>
-                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
@@ -73,7 +71,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
             </div>
@@ -91,18 +89,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-12" id="FormTambahAkunPerkiraanAnak"></div>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-12" id="NotifikasiTambahAkunPerkiraanAnak"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded" id="ButtonTambahAkunPerkiraanAnak">
                         <i class="bi bi-save"></i> Simpan
                     </button>
-                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
@@ -121,18 +119,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-12" id="FormEditAkun"></div>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-12" id="NotifikasiEditAkun"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded" id="ButtonEditAkun">
                         <i class="bi bi-save"></i> Simpan
                     </button>
-                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
@@ -151,7 +149,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-md-12" id="FormHapusAkun">
                             <!-- Form Hapus Akun -->
                         </div>
@@ -161,6 +159,38 @@
                             <!-- Notifikasi Hapus Akun -->
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-md btn-primary btn-rounded" id="ButtonHapusAkun">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Konfirmasi pertukaran posisi akun beserta seluruh turunannya. -->
+<div class="modal fade" id="ModalPindahPosisi" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="ProsesPindahPosisi">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pindah Posisi Akun</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_perkiraan" id="id_pindah_posisi">
+                    <input type="hidden" name="arah" id="arah_pindah_posisi">
+                    <p><small id="KonfirmasiPindahPosisi"></small></p>
+                    <small class="text-muted">Kode akun dan seluruh turunannya akan mengikuti posisi baru.</small>
+                    <div id="NotifikasiPindahPosisi" class="mt-3"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="ButtonPindahPosisi">Ya, Pindahkan</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 </div>
             </form>
         </div>

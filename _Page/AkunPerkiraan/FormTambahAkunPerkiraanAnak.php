@@ -1,75 +1,98 @@
 <?php
-    //Koneksi
-    include "../../_Config/Connection.php";
-    include "../../_Config/GlobalFunction.php";
-    include "../../_Config/Session.php";
-    date_default_timezone_set('Asia/Jakarta');
-    if(empty($SessionIdAkses)){
-        echo '<div class="row mb-3">';
-        echo '  <div class="col col-md-12 text-center">';
-        echo '      <code>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</code>';
-        echo '  </div>';
-        echo '</div>';
-    }else{
-        //Tangkap id_kelas
-        if(empty($_POST['id_perkiraan'])){
-            echo '<div class="row">';
-            echo '  <div class="col-md-12 mb-3 text-danger text-center">';
-            echo '      Mohon Maaf!! ID Akun Perkiraan Tidak Dapat didefinisikan.<br>';
-            echo '      Hubungi admin aplikasi untuk permasalahn berikut ini.<br>';
-            echo '  </div>';
-            echo '</div>';
-        }else{
-            $id_perkiraan=$_POST['id_perkiraan'];
-            $id_perkiraan=validateAndSanitizeInput($id_perkiraan);
-            $id_perkiraan=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'id_perkiraan');
-            if(empty($id_perkiraan)){
-                echo '<div class="row mb-3">';
-                echo '  <div class="col col-md-12 text-center">';
-                echo '      <code>ID Akun Perkiraan Tidak Ditemukan Pada Database!</code>';
-                echo '  </div>';
-                echo '</div>';
-            }else{
-                $kode=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'kode');
-                $nama=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'nama');
-                $level=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'level');
-                $saldo_normal=GetDetailData($Conn,'akun_perkiraan','id_perkiraan',$id_perkiraan,'saldo_normal');
+// Siapkan respons JSON serta dependensi koneksi dan sesi.
+header('Content-Type: application/json; charset=utf-8');
+require_once __DIR__ . '/../../_Config/Connection.php';
+require_once __DIR__ . '/../../_Config/GlobalFunction.php';
+require_once __DIR__ . '/../../_Config/Session.php';
+require_once __DIR__ . '/KodeAkunBerikutnya.php';
+
+// Kirim respons yang digunakan oleh handler pemuatan form.
+function Response($status, $message, $html = '')
+{
+    echo json_encode([
+        'status' => $status,
+        'message' => $message,
+        'html' => $html
+    ]);
+    exit;
+}
+
+// Validasi sesi dan ID akun induk sebelum menjalankan query.
+if (empty($SessionIdAkses)) {
+    Response('error', 'Sesi Akses Sudah Berakhir. Silahkan Login Ulang!');
+}
+if (empty($_POST['id_perkiraan']) || !is_scalar($_POST['id_perkiraan'])) {
+    Response('error', 'ID Akun Perkiraan Tidak Dapat Didefinisikan.');
+}
+$idPerkiraan = trim((string) $_POST['id_perkiraan']);
+if ($idPerkiraan === '') {
+    Response('error', 'ID Akun Perkiraan Tidak Dapat Didefinisikan.');
+}
+
+// Ambil seluruh data yang diperlukan dalam satu prepared statement.
+try {
+    $stmt = mysqli_prepare($Conn, 'SELECT id_perkiraan, kode, level, saldo_normal FROM akun_perkiraan WHERE id_perkiraan = ? LIMIT 1');
+    if (!$stmt) {
+        throw new Exception('Gagal menyiapkan query akun.');
+    }
+    mysqli_stmt_bind_param($stmt, 's', $idPerkiraan);
+    if (!mysqli_stmt_execute($stmt)) {
+        throw new Exception('Gagal membaca akun.');
+    }
+    $akun = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+    mysqli_stmt_close($stmt);
+    // Nomor anak berikutnya dihitung hanya dari anak langsung pada induk ini.
+    if ($akun) {
+        $kodeAnak = GetKodeAkunBerikutnya($Conn, (int) $akun['level'] + 1, $akun['kode']);
+    }
+} catch (Throwable $e) {
+    Response('error', 'Terjadi kesalahan pada saat membaca data akun perkiraan.');
+}
+
+// Hentikan pemuatan jika akun induk tidak ditemukan.
+if (!$akun) {
+    Response('error', 'ID Akun Perkiraan Tidak Ditemukan Pada Database!');
+}
+
+// Escape nilai database sebelum menyisipkannya ke atribut HTML.
+$idPerkiraanHtml = htmlspecialchars((string) $akun['id_perkiraan'], ENT_QUOTES, 'UTF-8');
+$kodeIndukHtml = htmlspecialchars($akun['kode'] . '.', ENT_QUOTES, 'UTF-8');
+$saldoNormalHtml = htmlspecialchars((string) $akun['saldo_normal'], ENT_QUOTES, 'UTF-8');
+
+// Tampung markup form agar respons hanya berisi JSON.
+ob_start();
 ?>
-                <input type="hidden" name="id_perkiraan" value="<?php echo "$id_perkiraan"; ?>">
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="kode">Kode Akun</label>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            <input type="text" readonly name="kode_induk" id="kode_induk" class="form-control" value="<?php echo "$kode."; ?>" required>
-                            <input type="text" name="kode" id="kode" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="nama">Nama Akun</label>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="text" name="nama" id="nama" class="form-control" required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="saldo_normal">Saldo Normal</label>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="text" readonly name="saldo_normal" id="saldo_normal" class="form-control" value="<?php echo "$saldo_normal."; ?>">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <small class="text-primary">Pastikan anda mengisi form akun perkiraan dengan benar!</small>
-                    </div>
-                </div>
-<?php 
-            } 
-        } 
-    } 
-?>
+<input type="hidden" name="id_perkiraan" value="<?= $idPerkiraanHtml ?>">
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label for="kode_anak">Kode Akun</label>
+    </div>
+    <div class="col-md-8">
+        <div class="input-group">
+            <input type="text" readonly name="kode_induk" id="kode_induk" class="form-control" value="<?= $kodeIndukHtml ?>" required>
+            <input type="text" id="kode_anak" class="form-control" value="<?= htmlspecialchars($kodeAnak, ENT_QUOTES, 'UTF-8') ?>" inputmode="numeric" pattern="[0-9]+" disabled>
+            <input type="hidden" name="kode" value="<?= htmlspecialchars($kodeAnak, ENT_QUOTES, 'UTF-8') ?>">
+        </div>
+        <small class="text-muted">Kode otomatis mengikuti nomor anak terbesar + 1 pada akun induk ini.</small>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label for="nama_anak">Nama Akun</label>
+    </div>
+    <div class="col-md-8">
+        <input type="text" name="nama" id="nama_anak" class="form-control" required>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label for="saldo_normal_anak">Saldo Normal</label>
+    </div>
+    <div class="col-md-8">
+        <input type="text" readonly name="saldo_normal" id="saldo_normal_anak" class="form-control" value="<?= $saldoNormalHtml ?>">
+    </div>
+</div>
+<?php
+// Sertakan form pada respons sukses untuk ditampilkan oleh JavaScript.
+$html = ob_get_clean();
+Response('success', 'Form Tambah Akun Perkiraan Berhasil Dimuat.', $html);

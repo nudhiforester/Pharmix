@@ -11,78 +11,85 @@ Pharmix dibangun menggunakan PHP native, MySQL/MariaDB, Bootstrap 5, dan jQuery.
 
 ## Fitur
 
-Daftar berikut mengikuti susunan menu aplikasi pada [`_Partial/Menu.php`](./_Partial/Menu.php). Akses ke masing-masing modul mengikuti izin pengguna.
+Daftar berikut merangkum kemampuan yang terlihat pada halaman, form, tabel, dan proses di `_Page`. Susunan bagian utama mengikuti menu aplikasi pada [`_Partial/Menu.php`](./_Partial/Menu.php); ketersediaan halaman dan tindakan tetap mengikuti izin akses pengguna.
 
 ### Dashboard
 
-- **Dashboard** — Menampilkan ringkasan data, aktivitas operasional, informasi barang dan transaksi, serta grafik sesuai periode yang dipilih.
+- **Dashboard** — Menampilkan ringkasan jumlah pasien, obat, resep, kunjungan, stok barang, serta transaksi penjualan, pembelian, dan operasional. Pengguna dapat melihat transaksi terbaru, pemberitahuan sistem, dan grafik transaksi menurut periode.
 
 ### Master
 
-- **Index Obat/Alkes** — Mengelola katalog obat dan alat kesehatan, termasuk sediaan, komposisi, kode KFA, dan ID Medication SATUSEHAT. Data dapat ditambahkan secara manual atau dari KFA, serta diimpor dan diekspor.
-- **Pasien** — Mengelola identitas pasien, nomor rekam medis, dan ID IHS untuk mendukung pelayanan serta integrasi SATUSEHAT.
-- **Kunjungan** — Mencatat kunjungan pasien, tanggal, kategori, prioritas, poliklinik, tenaga kesehatan, dan status pelayanan, serta mengirim data Encounter ke SATUSEHAT.
-- **Resep** — Mengelola resep dan rincian obat, dokter, apoteker, aturan penggunaan, serta pencetakan resep. Mendukung pencarian resep berdasarkan Nomor Resep Nasional dan proses SATUSEHAT melalui Medication, MedicationRequest, MedicationDispense, serta DocumentReference.
-- **Supplier** — Menyimpan dan memperbarui data pemasok untuk kebutuhan transaksi pembelian barang.
+- **Index Obat/Alkes** — Melihat, mencari, memfilter, menambah, mengubah, melihat detail, dan menghapus data obat/alat kesehatan. Data dapat dibuat manual atau dicari dari KFA; komposisi/ingredient dapat dirinci, dan data dapat diimpor atau diekspor. Modul menyimpan kode KFA serta ID Medication SATUSEHAT dan mendukung pengiriman Medication ke SATUSEHAT.
+- **Pasien** — Menambah, melihat detail, mengubah, menghapus, mencari, memfilter, mengimpor, dan mengekspor data pasien. Detail pasien mencakup identitas/nomor rekam medis serta riwayat kunjungan, resep, dan transaksi; ID IHS dapat dicari atau diperiksa untuk integrasi SATUSEHAT.
+- **Kunjungan** — Mencatat, melihat detail, mengubah, menghapus, memfilter, dan mengekspor kunjungan pasien. Data kunjungan dapat memuat tanggal, kategori/kondisi, prioritas, poliklinik, tenaga kesehatan, status, dan lampiran; tersedia proses pengiriman Encounter ke SATUSEHAT.
+- **Resep** — Membuat, melihat, mengubah, dan menghapus resep beserta item/rincian obat, ingredient, dosis/aturan pakai, dokter, dan apoteker. Resep dapat dicari menggunakan Nomor Resep Nasional (NRN), dicetak sebagai resep atau etiket, dan dikaitkan dengan data kunjungan/pasien. Proses SATUSEHAT mencakup MedicationRequest, MedicationDispense, dan DocumentReference.
+- **Supplier** — Menambah, melihat detail, mengubah, menghapus, mencari, memfilter, mengimpor, dan mengekspor data pemasok. Detail supplier menampilkan riwayat transaksi dan rincian barang; riwayat tersebut juga dapat difilter dan diekspor.
 
 ### Inventaris
 
-- **Master Barang** — Mengelola data barang, stok, beberapa satuan, harga dan kategori harga, serta riwayat transaksi barang. Tersedia fasilitas import, export, dan backup data pada modul barang.
-- **Batch & Expired** — Mengelola batch barang dan tanggal kedaluwarsa untuk membantu pemantauan persediaan.
-- **Stock Opname** — Mencatat pemeriksaan stok fisik dan membandingkannya dengan stok pada aplikasi untuk mengetahui selisih persediaan.
+- **Master Barang** — Menambah, melihat detail, mengubah, menghapus, mencari, memfilter, mengimpor, mengekspor, dan mencadangkan data barang. Data barang mencakup stok, satuan tunggal maupun multi-satuan, harga serta kategori multi-harga, tanggal kedaluwarsa/batch, dan riwayat transaksi. Tersedia pencarian barang melalui pemindaian kode.
+- **Batch & Expired** — Menambah, melihat detail, mengubah, menghapus, memfilter, mengimpor, dan mengekspor data batch serta tanggal kedaluwarsa barang untuk pemantauan persediaan.
+- **Stock Opname** — Membuat, mencari, melihat, mengubah, dan menghapus sesi stock opname. Pada rincian sesi, pengguna dapat memfilter dan mengekspor daftar barang, mencatat stok fisik, melihat stok awal/akhir serta selisih dan nilainya; pencatatan hasil opname memperbarui stok barang.
 
 ### Transaksi
 
-- **Kategori Operasional** — Mengatur jenis transaksi operasional agar pencatatan dan pelaporan dapat dikelompokkan sesuai kebutuhan.
-- **Transaksi Operasional** — Mencatat transaksi operasional beserta rincian dan informasi pembayarannya.
-- **Transaksi Penjualan** — Mengelola penjualan barang, rincian item, diskon, PPN, pembayaran, kembalian, dan pencetakan invoice.
-- **Transaksi Pembelian** — Mengelola pembelian dari supplier beserta rincian barang, diskon, PPN, pembayaran, dan dokumen transaksi.
+- **Kategori Transaksi** — Menambah, melihat detail, mengubah, menghapus, dan memfilter kategori/jenis transaksi; kategori dapat dikaitkan dengan akun perkiraan untuk pencatatan transaksi.
+- **Transaksi Operasional** — Membuat, melihat detail, mengubah, dan menghapus transaksi operasional. Pengguna dapat mengelola rincian dan jurnal transaksi, menambah/mengubah/menghapus rincian maupun jurnal, mengelola pembayaran, memfilter daftar, dan mengekspor transaksi.
+- **Kasir / Penjualan** — Membuat transaksi penjualan dengan memilih atau memindai barang, mengatur rincian barang dan rincian lainnya, jumlah, harga/kategori harga, diskon, PPN, serta anggota/pasien bila diperlukan. Rincian dapat ditambah, diubah, dihapus atau diedit secara massal; transaksi dapat disimpan, diubah atau dibatalkan, disertai pengelolaan pembayaran dan jurnal. Tersedia cetak invoice, filter riwayat, ekspor transaksi/rincian, serta ekspor estimasi laba penjualan.
+- **Pembelian** — Membuat transaksi pembelian dengan memilih supplier, memindai barang, dan mengatur rincian barang maupun rincian lainnya, harga, diskon, dan PPN. Rincian dapat ditambah, diubah, dihapus atau diedit secara massal; transaksi dapat disimpan, diubah atau dibatalkan, disertai pengelolaan pembayaran dan jurnal. Tersedia cetak dokumen transaksi serta ekspor transaksi/rincian.
 
 ### Keuangan
 
-- **Akun Perkiraan** — Mengelola daftar akun akuntansi yang digunakan dalam jurnal dan laporan keuangan.
-- **Utang/Piutang** — Memantau kewajiban dan tagihan dari transaksi yang belum lunas beserta rincian pembayarannya.
-- **Pembayaran** — Mencatat dan menelusuri pembayaran yang terkait dengan transaksi aplikasi.
+- **Akun Perkiraan** — Mengelola akun perkiraan utama dan akun anak, melihat detail, mengubah, menghapus, serta memilih akun untuk pengelompokan transaksi dan pencatatan jurnal.
+- **Utang/Piutang** — Melihat tagihan dan kewajiban yang belum lunas untuk transaksi operasional maupun jual-beli pada tampilan terpisah. Daftar dapat difilter; pengguna dapat melihat rincian transaksi dan riwayat pembayaran, mengatur tempo/jatuh tempo, mencatat, mengubah atau menghapus pembayaran, serta mengekspor riwayat pembayaran.
+- **Pembayaran** — Menambah, melihat detail, mengubah, dan menghapus pembayaran serta memfilter dan mengekspor daftar pembayaran. Pembayaran dapat ditelusuri ke transaksi terkait; jurnal pembayaran juga dapat ditambah, diubah, dan dihapus.
 
 ### Laporan
 
-- **Jurnal** — Menampilkan pencatatan debit dan kredit transaksi sebagai dasar pembukuan.
-- **Buku Besar** — Menyajikan mutasi dan saldo transaksi berdasarkan akun serta periode yang dipilih.
-- **Neraca Saldo** — Menampilkan ringkasan saldo debit dan kredit setiap akun untuk pemeriksaan pembukuan.
-- **Laba Rugi** — Menyajikan laporan pendapatan dan beban untuk mengetahui hasil usaha pada suatu periode.
-- **Operasional** — Merekap transaksi operasional berdasarkan periode dan filter laporan.
-- **Jual/Beli** — Merekap transaksi penjualan dan pembelian untuk memantau aktivitas perdagangan.
+- **Jurnal** — Menelusuri jurnal debit/kredit berdasarkan filter, membuka detail jurnal/transaksi, dan mengekspor data jurnal.
+- **Buku Besar** — Memilih akun perkiraan dan periode untuk melihat mutasi, rincian transaksi, dan saldo akun; tersedia ekspor/cetak laporan.
+- **Neraca Saldo** — Melihat saldo debit dan kredit akun untuk periode yang dipilih serta mengekspor atau mencetak laporan.
+- **Laba Rugi** — Melihat laporan pendapatan dan beban menurut periode serta mengekspor laporan.
+- **Rekap Operasional** — Melihat grafik dan rekap transaksi operasional berdasarkan jenis/periode, membuka rincian transaksi, dan mengekspor transaksi maupun rinciannya.
+- **Rekap Jual/Beli** — Melihat grafik ringkasan penjualan dan pembelian serta mencetak atau mengunduh hasil rekap dalam format PDF/Excel.
+- **Rekapitulasi Transaksi** — Menampilkan grafik transaksi serta rekap simpanan dan pinjaman anggota; tersedia laporan cetak/rekap beserta rincian transaksi.
 
 ### Pengaturan
 
-- **Pengaturan Umum** — Mengatur identitas aplikasi dan informasi umum fasilitas atau usaha.
-- **Auto Jurnal** — Mengatur pemetaan akun untuk mendukung pencatatan jurnal otomatis dari transaksi.
-- **Email Gateway** — Mengatur layanan pengiriman email aplikasi dan menguji konfigurasi pengirimannya.
-- **SATUSEHAT** — Mengatur koneksi, kredensial, dan token akses serta menguji koneksi integrasi SATUSEHAT.
+- **Pengaturan Umum** — Mengubah informasi/identitas umum aplikasi dan memperbarui logo serta favicon.
+- **Auto Jurnal** — Mengatur dan mengubah pemetaan akun jurnal otomatis untuk jenis transaksi jual-beli; pengaturan dapat digunakan atau diatur ulang pada alur transaksi.
+- **Email Gateway** — Mengatur konfigurasi layanan email dan mengirim email uji untuk memeriksa pengaturannya.
+- **SATUSEHAT** — Menambah, melihat detail, mengubah, dan menghapus konfigurasi koneksi; mengatur base URL, Organization ID, client key, secret key, serta status koneksi dan menguji koneksi.
 
 ### Aksesibilitas
 
-- **Fitur Aplikasi** — Mengelola daftar fitur yang menjadi dasar pemberian izin akses.
-- **Entitas Akses** — Mengelola kelompok atau entitas akses beserta pengaturan izin fiturnya.
-- **Akses Pengguna** — Mengelola akun pengguna dan izin fitur yang dapat diakses oleh masing-masing pengguna.
+- **Fitur Aplikasi** — Menambah, melihat detail, mengubah, menghapus, dan memfilter daftar fitur yang menjadi dasar izin.
+- **Entitas Akses** — Membuat, melihat detail, mengubah, dan menghapus kelompok/entitas akses; mengatur fitur yang diwariskan oleh entitas dan mengelola API key entitas.
+- **Akses Pengguna** — Menambah, melihat detail, mengubah, menghapus, memfilter, dan mengelola akun pengguna. Admin dapat mengubah level akses, mengatur izin per fitur, mengembalikan izin ke standar entitas, mengganti foto/password, serta melihat log akses.
 
 ### Referensi
 
-- **Route** — Mengelola referensi rute pemberian obat untuk melengkapi informasi resep.
-- **Sediaan** — Mengelola referensi bentuk sediaan obat untuk data Medication.
-- **Satuan Dosis** — Mengelola referensi satuan yang digunakan dalam penulisan dosis obat.
-- **Denominator** — Mengelola referensi satuan penyebut pada informasi komposisi atau kekuatan obat dalam Medication.
-- **Numerator** — Mengelola referensi satuan pembilang pada informasi komposisi atau kekuatan obat dalam Medication.
-- **Poliklinik** — Mengelola data dan status poliklinik, termasuk pencarian serta pemilihan ID Location SATUSEHAT.
-- **Nakes** — Mengelola data tenaga kesehatan untuk mendukung pencatatan kunjungan dan resep.
+- **Route, Sediaan, Satuan Dosis, Denominator, dan Numerator** — Mengelola data referensi obat melalui tambah, ubah, hapus, pencarian/filter pada modul yang menyediakannya, serta impor dan ekspor. Referensi ini digunakan untuk melengkapi aturan pakai, bentuk sediaan, dosis, dan komposisi/kekuatan Medication.
+- **Poliklinik** — Menambah, melihat detail, mengubah, menghapus, dan memfilter data poliklinik; mencari/menghubungkan ID Location SATUSEHAT.
+- **Nakes** — Menambah, melihat detail, mengubah, menghapus, dan memfilter data tenaga kesehatan; mencari/menghubungkan data Practitioner dan mengatur akses nakes.
 
 ### Sistem dan Fitur Lainnya
 
-- **Log Aktivitas** — Menelusuri catatan aktivitas umum, email, dan API untuk memantau penggunaan aplikasi.
-- **Dokumentasi** — Mengelola dokumentasi aplikasi sebagai sumber informasi penggunaan dan pengembangan.
-- **Bantuan** — Menampilkan panduan penggunaan yang dapat dicari berdasarkan judul atau deskripsi dan disaring menurut topik/tag.
-- **Keluar** — Mengakhiri sesi pengguna melalui konfirmasi logout.
-- **Login dan Profil Pengguna** — Mendukung login dengan validasi sesi berbasis token serta pengelolaan identitas, foto profil, dan password melalui menu profil.
+- **Log Aktivitas** — Menelusuri log aktivitas aplikasi, email, dan API dalam bentuk dataset/tabel, rekapitulasi, atau grafik; memilih mode/periode/filter serta mengekspor data aktivitas dan rincian rekap.
+- **Dokumentasi** — Menambah dan mengelola dokumentasi beserta kontennya, mengubah atau menghapus dokumentasi/konten, mengatur urutan konten, dan mencari/filter berdasarkan tag.
+- **Bantuan** — Menelusuri panduan bantuan, mencari berdasarkan judul/deskripsi, dan menyaring berdasarkan topik/tag.
+- **Login, pemulihan akun, dan profil** — Login dan logout melalui sesi aplikasi; meminta pemulihan password dan mengatur ulang password melalui alur reset. Pada profil, pengguna dapat mengubah identitas, foto, dan password.
+
+### Komponen Pendukung di `_Page`
+
+Komponen berikut berada di `_Page`, tetapi bukan semuanya merupakan menu utama:
+
+- **Anggota Koperasi** — Menampilkan dashboard anggota; menambah, melihat detail, mengubah, menghapus, mengimpor, dan mengekspor data anggota. Pengelola dapat menghubungkan akun akses anggota, mengatur status/izin akses dan foto, serta melihat riwayat simpanan, pinjaman/angsuran, pembelian, penarikan, dan bagi hasil. Riwayat dapat dicari atau difilter; rincian, transaksi, simpanan, dan riwayat simpanan dapat diekspor atau direkap.
+- **Riwayat Anggota** — Menelusuri riwayat simpanan, penarikan, pinjaman, angsuran, dan pembelian anggota, termasuk pencarian pada riwayat yang tersedia.
+- **Dokumentasi API** — Mengelola entri dokumentasi API, membuka editor, dan melihat dokumentasi melalui viewer.
+- **Cetak Invoice** — Menyediakan halaman cetak invoice berdasarkan data transaksi.
+- **Halaman login/reset password** — Komponen untuk autentikasi, permintaan pemulihan, dan pengaturan ulang password.
+- **Komponen internal** — `Beranda`, `Condition`, `Error`, dan komponen lainnya menyediakan halaman beranda, kondisi/validasi alur (termasuk SATUSEHAT), serta tampilan akses ditolak, halaman tidak ditemukan, atau fitur dalam pengembangan; komponen ini bukan fitur transaksi mandiri.
 
 ## Teknologi dan Dependency
 
@@ -300,4 +307,3 @@ Lisensi project tercantum pada file [`LICENSE`](./LICENSE).
 - Versi: `V.1.0.0`
 - Database utama: `pharmix`
 - File schema: [`db/pharmix.sql`](./db/pharmix.sql)
-
