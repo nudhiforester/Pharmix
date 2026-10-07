@@ -37,6 +37,7 @@
             "NeracaSaldo"           => "_Page/NeracaSaldo/NeracaSaldo.php",
             "LabaRugi"              => "_Page/LabaRugi/LabaRugi.php",
             "RekapitulasiTransaksi" => "_Page/RekapitulasiTransaksi/RekapitulasiTransaksi.php",
+            "EstimasiLaba"          => "_Page/EstimasiLaba/EstimasiLaba.php",
             "Route"                 => "_Page/Route/Route.php",
             "Sediaan"               => "_Page/Sediaan/Sediaan.php",
             "SatuanDosis"           => "_Page/SatuanDosis/SatuanDosis.php",

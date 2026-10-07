@@ -1,6 +1,6 @@
 <?php
     //Cek Aksesibilitas ke halaman ini
-    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAkses,'AQKs9kSv0Bph4ycGNUj');
+    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAkses,'WOMiYJdNpb52WMXvFEF');
     if($IjinAksesSaya!=="Ada"){
         include "_Page/Error/NoAccess.php";
     }else{
@@ -8,13 +8,13 @@
     <div class="pagetitle">
         <h1>
             <a href="">
-                <i class="bi bi-cart-plus"></i> Transaksi Penjualan</a>
+                <i class="bi bi-table"></i> Estimasi Laba Penjualan</a>
             </a>
         </h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Penjualan</li>
+                <li class="breadcrumb-item active">Estimasi Laba</li>
             </ol>
         </nav>
     </div>
@@ -23,8 +23,7 @@
             <div class="col-md-12">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <small>
-                        Berikut ini adalah halaman untuk mengelola transaksi penjualan. Setiap aktivitas penjualan dicatat pada halaman ini. 
-                        Untuk penjualan terhadap anggota harus dicatat informasi anggotanya sehingga data penjualan terhubung dengan riwayat belanja anggota.
+                        Berikut ini adalah halaman untuk menampilkan estimasi laba penjualan.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </small>
                 </div>
@@ -35,37 +34,43 @@
                 <div class="card card-data card-table">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-12 mb-2 text-end">
-                                <button type="button" class="btn btn-md btn-info btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilter" title="Filter">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                                <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalExportTransaksi" title="Export/Download">
+                            <div class="col-8">
+                                <b class="card-title"> 
+                                    <i class="bi bi-table"></i> Estimasi Laba Penjualan
+                                </b>
+                            </div>
+                            <div class="col-4 text-end">
+                                <a class="btn btn-md btn-secondary btn-floating" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalFilterLaba">
+                                    <i class="bi bi-funnel"></i>
+                                </a>
+                                <a class="btn btn-md btn-secondary btn-floating" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalExportLaba">
                                     <i class="bi bi-download"></i>
-                                </button>
-                                <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambahTransaksiPenjualan" title="Tambah Transaksi Penjualan">
-                                    <i class="bi bi-plus-lg"></i>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="table-load-container mt-3 mb-3">
-                        <table class="table table-hover table-responsive-card" id="TablePenjualan">
+                        <table class="table table-hover table-responsive-card" id="TableLabaPenjualan">
                             <thead>
                                 <tr>
                                     <th><b>No</b></th>
-                                    <th><b>Kode</b></th>
-                                    <th><b>Tanggal</b></th>
+                                    <th><b>Tgl</b></th>
                                     <th><b>Kategori</b></th>
-                                    <th><b>Pasien</b></th>
-                                    <th><b>Jumlah</b></th>
-                                    <th><b>Status</b></th>
-                                    <th><b>Opsi</b></th>
+                                    <th><b>Uraian</b></th>
+                                    <th><b>H.Beli</b></th>
+                                    <th><b>H.Jual</b></th>
+                                    <th><b>QTY</b></th>
+                                    <th><b>PPN</b></th>
+                                    <th><b>DSC</b></th>
+                                    <th><b>Subtotal</b></th>
+                                    <th><b>HPP</b></th>
+                                    <th><b>Margin</b></th>
                                 </tr>
                             </thead>
-                            <tbody id="TabelPenjualan">
+                            <tbody id="TabelLabaPenjualan">
                                 <!-- Data Barang Akan Ditampilkan Disini -->
                                 <tr class="table-empty">
-                                    <td colspan="8" class="text-center text-danger">
+                                    <td colspan="12" class="text-center text-danger">
                                         Tidak Ada Data yang Ditampilkan
                                     </td>
                                 </tr>
@@ -75,15 +80,15 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6">
-                                <small id="page_info">
+                                <small id="page_info_laba">
                                     Page 1 Of 100
                                 </small>
                             </div>
                             <div class="col-6 text-end">
-                                <button type="button" class="btn btn-md btn-outline-info btn-floating" id="prev_button">
+                                <button type="button" class="btn btn-md btn-outline-info btn-floating" id="prev_button_laba">
                                     <i class="bi bi-chevron-left"></i>
                                 </button>
-                                <button type="button" class="btn btn-md btn-outline-info btn-floating" id="next_button">
+                                <button type="button" class="btn btn-md btn-outline-info btn-floating" id="next_button_laba">
                                     <i class="bi bi-chevron-right"></i>
                                 </button>
                             </div>

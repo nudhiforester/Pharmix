@@ -40,6 +40,7 @@
             "BukuBesar"             => "_Page/BukuBesar/BukuBesar.js",
             "NeracaSaldo"           => "_Page/NeracaSaldo/NeracaSaldo.js",
             "LabaRugi"              => "_Page/LabaRugi/LabaRugi.js",
+            "EstimasiLaba"          => "_Page/EstimasiLaba/EstimasiLaba.js",
             "Route"                 => "_Page/Route/Route.js",
             "Sediaan"               => "_Page/Sediaan/Sediaan.js",
             "SatuanDosis"           => "_Page/SatuanDosis/SatuanDosis.js",

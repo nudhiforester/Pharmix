@@ -174,7 +174,8 @@
                     $PageMenu=="NeracaSaldo"||
                     $PageMenu=="LabaRugi"||
                     $PageMenu=="RekapTransaksi"||
-                    $PageMenu=="RekapJualBeli"
+                    $PageMenu=="RekapJualBeli" ||
+                    $PageMenu=="EstimasiLaba" 
                 ){
                     echo "show";
                 } 
@@ -208,6 +209,11 @@
                 <li>
                     <a href="index.php?Page=RekapJualBeli" class="<?php if($PageMenu=="RekapJualBeli"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Jual/Beli</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=EstimasiLaba" class="<?php if($PageMenu=="EstimasiLaba"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Estimasi Laba</span>
                     </a>
                 </li>
             </ul>

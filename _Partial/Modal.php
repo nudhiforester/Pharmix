@@ -35,6 +35,7 @@
             "BukuBesar"             => "_Page/BukuBesar/ModalBukuBesar.php",
             "NeracaSaldo"           => "_Page/NeracaSaldo/ModalNeracaSaldo.php",
             "LabaRugi"              => "_Page/LabaRugi/ModalLabaRugi.php",
+            "EstimasiLaba"          => "_Page/EstimasiLaba/ModalEstimasiLaba.php",
             "Route"                 => "_Page/Route/ModalRoute.php",
             "Sediaan"               => "_Page/Sediaan/ModalSediaan.php",
             "SatuanDosis"           => "_Page/SatuanDosis/ModalSatuanDosis.php",
